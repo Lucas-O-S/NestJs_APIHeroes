@@ -19,7 +19,7 @@ import { SexoController } from './sexo/sexo.controller';
 
 @Module({
   imports: [
-    //MongooseModule.forRoot('mongodb://localhost:27017/nest'), // Conexão com MongoDB
+    MongooseModule.forRoot('mongodb://root:rootpassword@mongodb:27017/testdb?authSource=admin'), // Conexão com MongoDB
     //MongooseModule.forFeature([{ name: Herois.name, schema: HeroisSchema }]), // Modelos do MongoDB
     
     SequelizeModule.forRoot({
