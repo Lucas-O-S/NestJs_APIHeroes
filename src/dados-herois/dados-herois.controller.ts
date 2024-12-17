@@ -4,6 +4,7 @@ import { CreateDadosHeroisDto } from './dto/create-dados-herois.dto';
 import { UpdateDadosHeroisDto } from './dto/update-dados-herois.dto';
 import {Heroes} from '../models/heroes.model';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { MinFileSizeValidator } from 'src/validators/min_file.validator';
 
 @Controller('dados-herois')
 export class DadosHeroisController {
@@ -19,7 +20,8 @@ export class DadosHeroisController {
       validators: [
         //Verifica se é jpeg ou png e depois se tem no maximo 2 mb
         new FileTypeValidator({ fileType: /(image\/jpeg|image\/png)/ }),
-        new MaxFileSizeValidator({maxSize: 1024 * 1000 * 2})
+        new MaxFileSizeValidator({maxSize: 1024 * 1000 * 2}),
+        new MinFileSizeValidator({ minSize: 1024 * 50 }), 
       ]
     })) imagens: Express.Multer.File[])
   {
