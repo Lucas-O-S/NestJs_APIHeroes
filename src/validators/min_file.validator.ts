@@ -16,7 +16,6 @@ export class MinFileSizeValidator extends FileValidator<MinFileSizeValidatorOpti
     isValid(file?: IFile | IFile[]): boolean | Promise<boolean> {
         if (!file) return false;
         if(!Array.isArray(file)){
-            console.log(`imagem ${file.size} - minimo: ${this.validationOptions.minSize} `)
 
             return this.validationOptions.minSize <= file.size
         }
