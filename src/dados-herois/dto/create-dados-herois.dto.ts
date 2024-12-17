@@ -59,8 +59,8 @@ export class CreateDadosHeroisDto {
     @IsNotEmpty({message: "story não pode estar vazio"})
     readonly story: string;
 
+    //variaveis para salvar as imagens
     image?: Express.Multer.File;
-
     converImage?: Express.Multer.File;
 
 }
