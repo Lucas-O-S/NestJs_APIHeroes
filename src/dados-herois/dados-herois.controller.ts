@@ -6,7 +6,7 @@ import {Heroes} from '../models/heroes.model';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { MinFileSizeValidator } from 'src/validators/min_file.validator';
 
-@Controller('dados-herois')
+@Controller('herois')
 export class DadosHeroisController {
   constructor(private readonly dadosHeroisService: DadosHeroisService) {}
 
