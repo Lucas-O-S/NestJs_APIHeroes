@@ -2,7 +2,7 @@ import { BadRequestException, FileTypeValidatorOptions, FileValidator } from "@n
 import { IFile } from "@nestjs/common/pipes/file/interfaces";
 
 export interface MinFileSizeValidatorOptions{
-    //minSize em bits
+    //minSize em bytes
     minSize: number; 
 }
 

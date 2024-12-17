@@ -11,7 +11,9 @@ export class DadosHeroisService {
     private readonly heroesModel: typeof Heroes,
   ) {}
   
-  create(createDadosHeroisDto: CreateDadosHeroisDto) {
+  async create(createDadosHeroisDto: CreateDadosHeroisDto) {
+
+    //await this.heroesModel.create(createDadosHeroisDto);
     return 'This action adds a new dadosHerois';
   }
 
