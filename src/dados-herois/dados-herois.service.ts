@@ -14,7 +14,7 @@ export class DadosHeroisService {
   async create(createDadosHeroisDto: CreateDadosHeroisDto) {
 
     //await this.heroesModel.create(createDadosHeroisDto);
-    return 'This action adds a new dadosHerois';
+    return `Foi adicionado ${createDadosHeroisDto.name}.`;
   }
 
   async getHeroesByPublisher(publisher): Promise<Heroes[]> {
