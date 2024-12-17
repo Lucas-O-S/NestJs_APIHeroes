@@ -55,7 +55,7 @@ export class CreateDadosHeroisDto {
 
     
     @IsString({message: "story deve ser string"})
-    @MinLength(2, {message: "story deve Conter mais de dois caracteres"})
+    @MinLength(20, {message: "story deve Conter mais de dois caracteres"})
     @IsNotEmpty({message: "story não pode estar vazio"})
     readonly story: string;
 
