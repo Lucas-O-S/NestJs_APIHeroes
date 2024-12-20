@@ -12,7 +12,7 @@ export class DadosHeroisController {
 
   @UseInterceptors(FilesInterceptor("imagens"))
   @Post()
-  insere(
+  async insere(
     //Salva as variaveis do body dentro do dto
     @Body() createDadosHeroisDto: CreateDadosHeroisDto,
     //Recebe arquivos enviados dentro da arranjo "imagens" 
@@ -25,16 +25,24 @@ export class DadosHeroisController {
       ]
     })) imagens: Express.Multer.File[])
   {
-    //Verifica se foi enviado duas imagens
-    if(imagens.length > 2 || imagens.length < 2){
-      throw new BadRequestException("Deve ser enviado duas imagens");
-    }
-    //Salva no dto
-    createDadosHeroisDto.image = imagens[0];
-    createDadosHeroisDto.converImage = imagens[1];
+    try{
+      //Verifica se foi enviado duas imagens
+      if(imagens.length > 2 || imagens.length < 2){
+        throw new BadRequestException("Deve ser enviado duas imagens");
+      }
+      //Salva no dto
+      createDadosHeroisDto.image = imagens[0];
+      createDadosHeroisDto.converImage = imagens[1];
 
-    //envia para o serviço 
-    return this.dadosHeroisService.create(createDadosHeroisDto);
+      //Resultado temporario para teste
+      const result = await this.dadosHeroisService.create(createDadosHeroisDto);
+      return `Foi adicionado ${result.nome}.`;
+    }
+    catch{
+      throw new BadRequestException("Erro ao adicionar heroi");
+    }
+
+
   }
 
   @Get('heroesByPublisher')
