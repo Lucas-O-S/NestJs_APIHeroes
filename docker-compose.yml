@@ -7,10 +7,10 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: testdb
-      MYSQL_USER: testuser
-      MYSQL_PASSWORD: testpassword
+      MYSQL_ROOT_PASSWORD: root123456
+      MYSQL_DATABASE: HeroesPlataform
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin1234
     volumes:
       - mysql-data:/var/lib/mysql
       - ./database/mysql-init:/docker-entrypoint-initdb.d # Diretório para scripts de inicialização do MySQL
@@ -27,7 +27,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
     volumes:
       - mongo-data:/data/db
-      - ./database/mongo-init:/docker-entrypoint-initdb.d # Diretório para scripts de inicialização do MongoDB
+      # - ./database/mongo-init:/docker-entrypoint-initdb.d # Diretório para scripts de inicialização do MongoDB
     networks:
       - nestjs_network
 
