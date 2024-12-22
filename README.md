@@ -103,7 +103,7 @@ Atualmente veja o que já está e o que não está configurado para rodar no con
       * tabela de studios;
       * tabela de team;
 
-As váriaveis de acesso ao banco mysql e mongoDB para o docker já estão configuradas no abaixo, só comentar as outras e colar as abaixo no arquivo "**.env**":
+As váriaveis de acesso ao banco mysql e mongoDB para o docker já estão configuradas abaixo, só comentar as outras e colar as abaixo no arquivo "**.env**":
 ```
   # dados para utilizar o banco mysql com docker
   DB_HOST=mysql              # Nome do serviço no docker-compose.yml
