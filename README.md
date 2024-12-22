@@ -175,91 +175,88 @@ Qualquer dúvida chame o ADM do projeto: Diego de Souza.
 Para rodar o banco de forma local você deve instalar o mysql em seu computador:
 Passos:
   
-  1° - Baixe o Mysql,vá até o site oficial do MySQL: https://dev.mysql.com/downloads/installer/.
-    *Faça o download do MySQL Installer adequado para o seu sistema operacional.
+1° - Baixe o Mysql,vá até o site oficial do MySQL: https://dev.mysql.com/downloads/installer/.
+*Faça o download do MySQL Installer adequado para o seu sistema operacional.
   
-  2° - Instale o MySQL, execute o instalador e siga as instruções:
-    obs.: Para mais detalhes procure na codumentação no próprio site.
+2° - Instale o MySQL, execute o instalador e siga as instruções:
   
-  3° - Verifique a instalação do Mysql, abra o terminal e digite o comando:
-      ```
-        mysql --version
-      ```
+  obs.: Para mais detalhes procure na codumentação no próprio site.
   
-  4° - Se conecte ao banco no terminal digite:
-      ```
-        mysql -u root -p
-      ```
-      Depois insira a senha
+3° - Verifique a instalação do Mysql, abra o terminal e digite o comando:
+  ```bash
+    mysql --version
+  ```
+  
+4° - Se conecte ao banco no terminal digite:
+  ```
+    mysql -u root -p
+  ```
+  Depois insira a senha
 
-  5° - Crie o banco, digite o comando:
+5° - Crie o banco, digite o comando:
+  ```
+    CREATE DATABASE HeroesPlataform;
+  ```
 
-      ```
-        CREATE DATABASE HeroesPlataform;
-      ```
+6° - crie o usuario adm, digite o comando:
+  ```bash
+    CREATE USER 'admin'@'%' IDENTIFIED BY 'admin1234';
+  ```
 
-  6° - crie o usuario adm, digite o comando:
+7° - Conceda os privilégios de acesso ao banco, caso contrário os dados do .env não vão funcionar, digite o comando:
+  ```
+    GRANT ALL PRIVILEGES ON HeroesPlataform.* TO 'admin'@'%';
+  ```
 
-    ```
-      CREATE USER 'admin'@'%' IDENTIFIED BY 'admin1234';
-    ```
+8° - Atualize as permissões, digite o comando: 
+  ```
+    FLUSH PRIVILEGES;
+  ```
 
-  7° - Conceda os privilégios de acesso ao banco, caso contrário os dados do .env não vão funcionar, digite o comando:
+Use o banco criado, digite o comando:
+  ```
+    USE HeroesPlataform;
+  ```
 
-    ```
-      GRANT ALL PRIVILEGES ON HeroesPlataform.* TO 'admin'@'%';
-    ```
+Crie as tabelas, digite o comando:
+  ```
+    -- Criar a tabela "studios"
+    CREATE TABLE IF NOT EXISTS studios (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(100) NOT NULL,
+      nationality VARCHAR(50),
+      history VARCHAR(255)
+    );
 
-  8° - Atualize as permissões, digite o comando: 
+    -- Criar a tabela "team"
+    CREATE TABLE IF NOT EXISTS team (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(100) NOT NULL,
+      creator VARCHAR(50)
+    );
 
-    ```
-      FLUSH PRIVILEGES;
-    ```
-
-  Use o banco criado, digite o comando:
-
-    ```
-      USE HeroesPlataform;
-    ```
-  Crie as tabelas, digite o comando:
-
-    ```
-      -- Criar a tabela "studios"
-      CREATE TABLE IF NOT EXISTS studios (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          name VARCHAR(100) NOT NULL,
-          nationality VARCHAR(50),
-          history VARCHAR(255)
-      );
-
-      -- Criar a tabela "team"
-      CREATE TABLE IF NOT EXISTS team (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          name VARCHAR(100) NOT NULL,
-          creator VARCHAR(50)
-      );
-
-      -- Criar a tabela "heroes"
-      CREATE TABLE IF NOT EXISTS heroes (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          name VARCHAR(100) NOT NULL,
-          studio_id INT NOT NULL,
-          power_type VARCHAR(50),
-          morality VARCHAR(50),
-          first_appearance VARCHAR(255),
-          release_date DATE,
-          creator VARCHAR(50),
-          weak_point VARCHAR(100),
-          affiliation VARCHAR(100),
-          story VARCHAR(255),
-          team INT,
-          genre VARCHAR(50),
-          image1 BLOB,
-          image2 BLOB,
-          FOREIGN KEY (studio_id) REFERENCES studios(id),
-          FOREIGN KEY (team) REFERENCES team(id)
-      );
-    ```
+    -- Criar a tabela "heroes"
+    CREATE TABLE IF NOT EXISTS heroes (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(100) NOT NULL,
+      studio_id INT NOT NULL,
+      power_type VARCHAR(50),
+      morality VARCHAR(50),
+      first_appearance VARCHAR(255),
+      release_date DATE,
+      creator VARCHAR(50),
+      weak_point VARCHAR(100),
+      affiliation VARCHAR(100),
+      story VARCHAR(255),
+      team INT,
+      genre VARCHAR(50),
+      image1 BLOB,
+      image2 BLOB,
+      FOREIGN KEY (studio_id) REFERENCES studios(id),
+      FOREIGN KEY (team) REFERENCES team(id)
+    );
+  ```
 Pronto configurado pelo terminal.
-Obs.: Aconselho usar um gerenciador de banco como o Mysql workBench, é mais fácil de visualizar o resultado e tem uma interface gráfica, mais amigavel para iniciantes.
+
+**Obs.:** Aconselho usar um gerenciador de banco como o Mysql workBench, é mais fácil de visualizar o resultado e tem uma interface gráfica, mais amigavel para iniciantes.
 os comando são praticamente os mesmos para criação do banco e etc.
