@@ -219,6 +219,8 @@ Use o banco criado, digite o comando:
   ```
 
 Crie as tabelas, digite o comando:
+<div style="background-color:rgb(66, 17, 54); padding: 10px; border-radius: 5px;color:rgb(0, 0, 0)">
+
   ```
     -- Criar a tabela "studios"
     CREATE TABLE IF NOT EXISTS studios (
@@ -256,7 +258,10 @@ Crie as tabelas, digite o comando:
       FOREIGN KEY (team) REFERENCES team(id)
     );
   ```
+</div>
 Pronto configurado pelo terminal.
 
 **Obs.:** Aconselho usar um gerenciador de banco como o Mysql workBench, é mais fácil de visualizar o resultado e tem uma interface gráfica, mais amigavel para iniciantes.
 os comando são praticamente os mesmos para criação do banco e etc.
+
+
