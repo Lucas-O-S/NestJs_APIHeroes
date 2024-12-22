@@ -10,5 +10,6 @@ module.exports = {
     DB_PORT: config.DB_PORT, 
     DB_USERNAME: config.DB_NAME,
     DB_PASSWORD: config.DB_PASSWORD,
-    DB_NAME: config.DB_NAME
+    DB_NAME: config.DB_NAME,
+    MONGO_URL: config.MONGO_URL
 }
