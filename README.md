@@ -175,63 +175,53 @@ Qualquer dúvida chame o ADM do projeto: Diego de Souza.
 Para rodar o banco de forma local você deve instalar o mysql em seu computador:
 Passos:
   
-  1° - Baixe o Mysql;
-    * Vá até o site oficial do MySQL: https://dev.mysql.com/downloads/installer/.
+  1° - Baixe o Mysql,vá até o site oficial do MySQL: https://dev.mysql.com/downloads/installer/.
     *Faça o download do MySQL Installer adequado para o seu sistema operacional.
   
-  2° - Instale o MySQL:
-    * Execute o instalador e siga as instruções:
+  2° - Instale o MySQL, execute o instalador e siga as instruções:
     obs.: Para mais detalhes procure na codumentação no próprio site.
   
-  3° - Verifique a instalação do Mysql:
-    * abra o terminal e digite o comando:
+  3° - Verifique a instalação do Mysql, abra o terminal e digite o comando:
       ```
         mysql --version
       ```
   
-  4° - Se conecte ao banco:
-    No terminal digite:
+  4° - Se conecte ao banco no terminal digite:
       ```
         mysql -u root -p
       ```
       Depois insira a senha
 
-  5° - Crie o banco: 
-    * Digite o comando:
+  5° - Crie o banco, digite o comando:
 
       ```
         CREATE DATABASE HeroesPlataform;
       ```
 
-  6° - crie o usuario adm:
-    * Digite o comando:
+  6° - crie o usuario adm, digite o comando:
 
     ```
       CREATE USER 'admin'@'%' IDENTIFIED BY 'admin1234';
     ```
 
-  7° - Conceda os privilégios de acesso ao banco, caso contrário os dados do .env não vão funcionar.
-    * Digite o comando:
+  7° - Conceda os privilégios de acesso ao banco, caso contrário os dados do .env não vão funcionar, digite o comando:
 
     ```
       GRANT ALL PRIVILEGES ON HeroesPlataform.* TO 'admin'@'%';
     ```
 
-  8° - Atualize as permissões:
-    * Digite o comando: 
+  8° - Atualize as permissões, digite o comando: 
 
     ```
       FLUSH PRIVILEGES;
     ```
 
-  Use o banco criado:
-    * Digite o comando:
+  Use o banco criado, digite o comando:
 
     ```
       USE HeroesPlataform;
     ```
-  Crie as tabelas:
-    * Digite o comando:
+  Crie as tabelas, digite o comando:
 
     ```
       -- Criar a tabela "studios"
