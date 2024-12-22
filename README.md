@@ -105,18 +105,14 @@ Atualmente veja o que já está e o que não está configurado para rodar no con
 
 As váriaveis de acesso ao banco mysql e mongoDB para o docker já estão configuradas abaixo, só comentar as outras e colar as abaixo no arquivo "**.env**":
 ```
-  # dados para utilizar o banco mysql com docker
-  DB_HOST=mysql              # Nome do serviço no docker-compose.yml
-  DB_PORT=3306               # Porta padrão do MySQL
-  DB_USERNAME=admin          # O usuário configurado no MYSQL_USER
-  DB_PASSWORD=admin1234      # A senha configurada no MYSQL_PASSWORD
-  DB_NAME=HeroesPlataform    # O banco de dados configurado no MYSQL_DATABASE
+  DB_HOST=localhost             # Nome do serviço no docker-compose.yml
+DB_PORT=3306               # Porta padrão do MySQL
+DB_USERNAME=admin          # O usuário configurado no MYSQL_USER
+DB_PASSWORD=admin1234      # A senha configurada no MYSQL_PASSWORD
+DB_NAME=HeroesPlataform    # O banco de dados configurado no MYSQL_DATABASE
 
-  # dados para utilizar o banco mongo DB com docker
-  MONGO_HOST=mongodb                  # Nome do serviço MongoDB no docker-compose.yml
-  MONGO_PORT=27017                    # Porta padrão do MongoDB
-  MONGO_INITDB_ROOT_USERNAME=root     # Usuário raiz definido no Compose
-  MONGO_INITDB_ROOT_PASSWORD=rootpassword # Senha raiz configurada no Compose
+# Configuração para conexão MongoDB
+MONGO_URL=mongodb://root:rootpassword@localhost:27017/testdb?authSource=admin
 ```
 
 ### Como utilizar o docker para subir as imagens e usar o banco?
