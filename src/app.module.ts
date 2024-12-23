@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SequelizeModule } from '@nestjs/sequelize';
 
@@ -19,19 +20,21 @@ import { SexoController } from './sexo/sexo.controller';
 
 @Module({
   imports: [
-    //MongooseModule.forRoot('mongodb://localhost:27017/nest'), // Conexão com MongoDB
-    //MongooseModule.forFeature([{ name: Herois.name, schema: HeroisSchema }]), // Modelos do MongoDB
-    
+    ConfigModule.forRoot({
+      isGlobal: true, // Permite o uso de variáveis globais
+    }),
+    MongooseModule.forRoot(process.env.MONGO_URL),
+    // Conexão MySQL
     SequelizeModule.forRoot({
       dialect: 'mysql',
       host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT, 10) || 3306,
+      port: parseInt(process.env.DB_PORT, 10),
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      models, // Modelos do MySQL
+      models, // Seus modelos
       autoLoadModels: true,
-      synchronize: false,
+      synchronize: false, // Desative no ambiente de produção
     }),
     DadosHeroisModule,
     EditoraModule,
