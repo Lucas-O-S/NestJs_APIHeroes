@@ -1,37 +1,104 @@
+import { timestamp } from 'rxjs';
 import { Table, Column, Model, DataType} from 'sequelize-typescript';
 
-@Table
+@Table({
+  tableName: "heroes",
+  timestamps: false,
+})
 export class Heroes extends Model<Heroes> {
-  @Column({ type: DataType.STRING, allowNull: false })
-  nome: string;
+    @Column({
+      type: DataType.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
+  })
+  id: number;
 
-  @Column({ type:DataType.STRING, allowNull: false })
-  tipo_poder: string;
+  @Column({
+      type: DataType.STRING,
+      allowNull: false,
+  })
+  name : string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
-  primeira_aparicao: string;
+  //@ForeignKey(() => studios)
+  @Column({
+      type: DataType.NUMBER,
+      allowNull: false,
+  })
+  studio_id: number;
 
-  @Column({ type: DataType.STRING, allowNull: false})
-  data_lancamento:Date;
+  @Column({
+      type: DataType.STRING,
+      allowNull: true,
+  })
+  power_type: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
-  criador: string;
+  @Column({
+      type: DataType.STRING,
+      allowNull: true,
+  })
+  morality: string;
 
-  @Column({ type:DataType.STRING, allowNull: true})
-  fraquesa: string;
+  @Column({
+      type: DataType.STRING,
+      allowNull: true,
+  })
+  first_appearance: string;
 
-  @Column({ type: DataType.INTEGER, allowNull: false})
-  editoraId: number;
+  @Column({
+      type: DataType.DATE,
+      allowNull: true,
+  })
+  release_date: Date;
 
-  @Column({ type: DataType.INTEGER, allowNull: false})
-  equipeId: number;
+  @Column({
+      type: DataType.STRING,
+      allowNull: true,
+  })
+  creator: string;
 
-  @Column({ type:DataType.INTEGER, allowNull: false })
-  moralidadeId: number;
+  @Column({
+      type: DataType.STRING,
+      allowNull: true,
+  }) 
+  weak_point: string;
 
-  @Column({ type: DataType.INTEGER, allowNull: false })
-  origensId: number;
+  @Column({
+      type: DataType.STRING,
+      allowNull: true,
+  })
+  affiliation: string;
 
-  @Column({ type: DataType.INTEGER, allowNull: false })
-  sexoId: number;
+  @Column({
+      type: DataType.STRING,
+      allowNull: true,
+  })
+  story: string;
+
+  //@ForeignKey (() => teams)
+  @Column({
+      type: DataType.INTEGER,
+      allowNull: true,
+  })
+  team: number  
+
+  @Column({
+      type: DataType.STRING,
+      allowNull: true,
+  })
+  genre: string;
+
+  @Column({
+      type: DataType.BLOB,
+      allowNull: true,
+  })
+  image1: Express.Multer.File;
+
+  @Column({
+      type: DataType.BLOB,
+      allowNull: true,
+  })
+  image2: Express.Multer.File;
+
 }

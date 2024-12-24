@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpCode, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateDadosHeroisDto } from './dto/create-dados-herois.dto';
 import { UpdateDadosHeroisDto } from './dto/update-dados-herois.dto';
 import { Heroes } from 'src/models/heroes.model';
@@ -13,16 +13,15 @@ export class DadosHeroisService {
   
   async create(createDadosHeroisDto: CreateDadosHeroisDto) {
 
-    //await this.heroesModel.create(createDadosHeroisDto);
+    await this.heroesModel.create(createDadosHeroisDto);
     
-    //Retorno temporario para testes
-    return createDadosHeroisDto;
+    return HttpStatus.CREATED;
   }
 
-  async getHeroesByPublisher(publisher): Promise<Heroes[]> {
+ /* async getHeroesByPublisher(publisher): Promise<Heroes[]> {
     return this.heroesModel.findAll({where: {editoraId:publisher}});
   }
-
+*/
   findAll() {
     return `This action returns all dadosHerois`;
   }
