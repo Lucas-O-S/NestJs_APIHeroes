@@ -1,32 +1,46 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize'; // Alterar para Sequelize
-import { Equipe } from '../models/equipes.model';
+import { Team } from '../models/equipes.model';
 import { CreateEquipeDto } from './dto/create-equipe.dto';
-import { UpdateEquipeDto } from './dto/update-equipe.dto';
-import { CreateEditoraDto } from 'src/editora/dto/create-editora.dto';
+
 
 @Injectable()
 export class EquipeService {
   constructor(
-    @InjectModel(Equipe) 
-    private equipeModel: typeof Equipe 
+    @InjectModel(Team) 
+    private equipeModel: typeof Team 
   ) {}
 
-  async create(equipeDto: CreateEquipeDto): Promise<Equipe> {
+  async create(equipeDto: CreateEquipeDto) {
     // Implementar lógica de criação
     const existingEquipe = await this.equipeModel.findOne({
-      where: { nome: equipeDto.nome}
+      where: { name: equipeDto.name}
     });
 
     if(existingEquipe){
       throw new ConflictException('Já existe um registro n tabela equipes com este nome.')
     }
-    //cria uma nova equipe se não houver conflitos
-    return this.equipeModel.create(equipeDto);
+
+    await this.equipeModel.create(equipeDto);
+
+    return HttpStatus.CREATED;
   }
 
-  async findAll(): Promise<Equipe[]> {
+  async findOne(id: number): Promise<Team>{
+    const result : Team = await this.equipeModel.findOne({ where: {id}});
+    if(result == null){
+      throw new ConflictException('Equipe com este id não existe');
+    }
+    return result;
+  }
+
+  async findAll(): Promise<Team[]> {
     return await this.equipeModel.findAll(); // Usar equipeModel
+  }
+
+  async exists(id: number): Promise<boolean>{
+    const equipe = await this.equipeModel.findOne({where: {id}});
+    return equipe != null;
   }
 
 }

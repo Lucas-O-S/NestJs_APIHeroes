@@ -1,16 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ConflictException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ConflictException, HttpStatus, ParseIntPipe } from '@nestjs/common';
 import { EquipeService } from './equipe.service';
 import { CreateEquipeDto } from './dto/create-equipe.dto';
-import { Equipe } from 'src/models/equipes.model';
+import { Team } from 'src/models/equipes.model';
 
 @Controller('equipe')
 export class EquipeController {
   constructor(private readonly equipeService: EquipeService) {}
 
-  @Post('criaRegistro')
+  @Post()
   async registro(@Body() equipeDTO: CreateEquipeDto){
     try{
-      return await this.equipeService.create(equipeDTO);
+      const result = await this.equipeService.create(equipeDTO);
+      return {Result: result, message: 'Equipe criada com sucesso'};
     }catch (error){
       if(error instanceof ConflictException){
         throw new ConflictException('Equipe com este nome já existe');
@@ -19,8 +20,22 @@ export class EquipeController {
     }
   }
 
-  @Get('getAll')
-  async getAllEquipe(): Promise<Equipe[]> {
+  @Get(":id")
+  async getEquipe(@Param("id", ParseIntPipe) id: number): Promise<Team>{
+    try{
+      return this.equipeService.findOne(id);;
+
+    }
+    catch(error){
+      if(error instanceof ConflictException){
+        throw new ConflictException('Equipe com este id não existe');
+      }
+      throw error;
+    }
+  }
+
+  @Get()
+  async getAllEquipe(): Promise<Team[]> {
     return this.equipeService.findAll();
   }
 

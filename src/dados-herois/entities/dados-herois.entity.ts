@@ -1,5 +1,5 @@
-import { Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
-import { Team } from './equipes.model';
+import { Table, Column, Model, DataType, ForeignKey} from 'sequelize-typescript';
+import { Team } from '../../models/equipes.model';
 
 @Table({
   tableName: "heroes",
@@ -97,7 +97,7 @@ export class Heroes extends Model<Heroes> {
 
   @Column({
       type: DataType.BLOB,
-      allowNull: false,
+      allowNull: true,
   })
   image2: Express.Multer.File;
 
