@@ -11,8 +11,7 @@ export class EquipeService {
     private equipeModel: typeof Team 
   ) {}
 
-  async create(equipeDto: CreateEquipeDto) {
-    // Implementar lógica de criação
+  async create(equipeDto: CreateEquipeDto) : Promise<HttpStatus> {
     const existingEquipe = await this.equipeModel.findOne({
       where: { name: equipeDto.name}
     });

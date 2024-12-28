@@ -1,5 +1,6 @@
 import { Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
 import { Team } from './equipes.model';
+import { Editora } from './editoras.model';
 
 @Table({
   tableName: "heroes",
@@ -21,7 +22,7 @@ export class Heroes extends Model<Heroes> {
   })
   name : string;
 
-  //@ForeignKey(() => studios)
+  @ForeignKey(() => Editora)
   @Column({
       type: DataType.NUMBER,
       allowNull: false,

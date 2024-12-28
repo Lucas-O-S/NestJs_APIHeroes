@@ -17,6 +17,7 @@ export class Team extends Model<Team> {
   @Column({
       type: DataType.STRING,
       allowNull: false,
+      unique: true,
   })
   name : string;
 

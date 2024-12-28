@@ -13,7 +13,7 @@ export class DadosHeroisService {
     private readonly equipeService: EquipeService,
   ) {}
   
-  async create(createDadosHeroisDto: CreateDadosHeroisDto) {
+  async create(createDadosHeroisDto: CreateDadosHeroisDto) : Promise<HttpStatus> {
     
     //Verifica se o estudio e o time existem 
     await this.VerifyForeignKey(createDadosHeroisDto);
@@ -46,11 +46,9 @@ export class DadosHeroisService {
 
   private async VerifyForeignKey(hero: CreateDadosHeroisDto){
      
-    //Não implementado
-    /*if(!await this.equipeService.exists(hero.studio_id)){
+      if(!await this.equipeService.exists(hero.studio_id)){
         throw new BadRequestException('Estúdio não existe');
       }
-        */
     
       if(!await this.equipeService.exists(hero.team)){
         throw new BadRequestException('Time não existe');
