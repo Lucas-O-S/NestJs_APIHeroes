@@ -1,5 +1,5 @@
 import { Heroes } from './heroes.model';
-import { Editora } from './editoras.model';
+import { Editora } from './studio.model';
 import { Team } from './equipes.model';
 import { Moralidades } from './moralidades.model';
 import { Origens } from './origem.model';

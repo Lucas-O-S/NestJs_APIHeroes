@@ -17,6 +17,7 @@ import { MoralidadeController } from './moralidade/moralidade.controller';
 import { OrigemModule } from './origem/origem.module';
 import { SexoModule } from './sexo/sexo.module';
 import { SexoController } from './sexo/sexo.controller';
+import { StudioModule } from './studio/studio.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { SexoController } from './sexo/sexo.controller';
     MoralidadeModule,
     OrigemModule,
     SexoModule,
+    StudioModule,
   ],
   controllers: [
     DadosHeroisController,

@@ -1,6 +1,6 @@
-import { Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
-import { Team } from './equipes.model';
-import { Editora } from './studio.model';
+import { Table, Column, Model, DataType, ForeignKey} from 'sequelize-typescript';
+import { Team } from '../../models/equipes.model';
+import { Editora } from '../../models/studio.model';
 
 @Table({
   tableName: "heroes",
@@ -98,7 +98,7 @@ export class Heroes extends Model<Heroes> {
 
   @Column({
       type: DataType.BLOB,
-      allowNull: false,
+      allowNull: true,
   })
   image2: Express.Multer.File;
 
