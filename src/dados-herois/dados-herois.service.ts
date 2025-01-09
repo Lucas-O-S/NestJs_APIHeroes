@@ -1,4 +1,4 @@
-import { BadRequestException, HttpCode, HttpStatus, Injectable } from '@nestjs/common';
+import {HttpStatus, Injectable } from '@nestjs/common';
 import { CreateDadosHeroisDto } from './dto/create-dados-herois.dto';
 import { UpdateDadosHeroisDto } from './dto/update-dados-herois.dto';
 import { Heroes } from 'src/models/heroes.model';
@@ -16,7 +16,9 @@ export class DadosHeroisService {
   async create(createDadosHeroisDto: CreateDadosHeroisDto) : Promise<HttpStatus> {
     
     //Verifica se o estudio e o time existem 
-    await this.VerifyForeignKey(createDadosHeroisDto);
+    if(await this.VerifyForeignKey(createDadosHeroisDto)){
+      return HttpStatus.BAD_REQUEST;
+    }
 
     //Cria o heroi
     await this.heroesModel.create(createDadosHeroisDto);
@@ -47,11 +49,11 @@ export class DadosHeroisService {
   private async VerifyForeignKey(hero: CreateDadosHeroisDto){
      
       if(!await this.equipeService.exists(hero.studio_id)){
-        throw new BadRequestException('Estúdio não existe');
+        return false;
       }
     
       if(!await this.equipeService.exists(hero.team)){
-        throw new BadRequestException('Time não existe');
+        return false;
       }
     
   }

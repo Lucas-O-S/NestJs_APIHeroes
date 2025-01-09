@@ -2,7 +2,6 @@ import { Injectable, ConflictException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Editora } from '../models/editoras.model';
 import { CreateEditoraDto } from './dto/create-editora.dto';
-import e from 'express';
 
 @Injectable()
 export class EditoraService {
@@ -18,7 +17,7 @@ export class EditoraService {
     });
 
     if (existingEditora) {
-      throw new ConflictException('Já existe um registro na tabela editoras com este nome.');
+        return HttpStatus.CONFLICT;
     }
 
     this.editoraModel.create(editoraDTO);
@@ -28,10 +27,7 @@ export class EditoraService {
 
   async findOne(id: number): Promise<Editora> {
     const result = await this.editoraModel.findOne({where: {id}});
-    console.log(result);
-    if (result == null) {
-      throw new ConflictException('Não existe uma editora com este ID.');
-    }
+    
     return result;
   }
 

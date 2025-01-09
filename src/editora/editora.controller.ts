@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, ConflictException, Param, ParseIntPipe } from "@nestjs/common";
+import { Controller, Post, Body, Get, Param, ParseIntPipe, HttpStatus } from "@nestjs/common";
 import { EditoraService } from "./editora.service";
 import { CreateEditoraDto } from "./dto/create-editora.dto";
 import {Editora} from '../models/editoras.model';
@@ -11,28 +11,32 @@ export class EditoraController {
   async registro(@Body() editoraDTO: CreateEditoraDto) {
     try {
       const result = await this.editoraService.create(editoraDTO);
-      return {result : result, message: `Editora ${editoraDTO.name} criada com sucesso`};
-    } catch (error) {
-      if (error instanceof ConflictException) {
-        throw new ConflictException('Editora com este nome já existe');
+      
+      if(result != HttpStatus.CREATED){
+        return {message: "Erro ao criar editora", status : result};
       }
+      return {result : result, message: `Editora ${editoraDTO.name} criada com sucesso`};
+
+    } catch (error) {
+
       throw error; 
     }
   }
 
   @Get(":id")
-  async getOneEditora(@Param("id", ParseIntPipe) id : number): Promise<Editora> {
+  async getOneEditora(@Param("id", ParseIntPipe) id : number){
     
     try{
-
-      return await this.editoraService.findOne(id);
+      const result = await this.editoraService.findOne(id);
+      if(!result){
+        return {message: "Editora não encontrada", status : HttpStatus.NOT_FOUND};
+      }
+      return result;
+      
       
     }
     catch(error){
-      
-      if(!await this.editoraService.Exist(id)){
-        throw new ConflictException('Não existe uma editora com este ID.');
-      }
+
       throw error;
     }
   }

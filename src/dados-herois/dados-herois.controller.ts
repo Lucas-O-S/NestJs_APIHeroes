@@ -1,11 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, UploadedFiles, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, BadRequestException, UsePipes, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, UploadedFiles, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, BadRequestException, UsePipes, ParseIntPipe, HttpStatus } from '@nestjs/common';
 import { DadosHeroisService } from './dados-herois.service';
 import { CreateDadosHeroisDto } from './dto/create-dados-herois.dto';
-import { UpdateDadosHeroisDto } from './dto/update-dados-herois.dto';
-import {Heroes} from '../models/heroes.model';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { MinFileSizeValidator } from 'src/validators/min_file.validator';
-import { FileValidationPipe } from 'src/validators/FileValidation.validator';
+
 import { FileDtoInterceptor } from 'src/middleware/FileDto.interceptor';
 
 @Controller('herois')
@@ -21,6 +18,11 @@ export class DadosHeroisController {
   {
     try{
       const result = await this.dadosHeroisService.create(createDadosHeroisDto);
+
+      if(result == HttpStatus.BAD_REQUEST){
+        return {message: "Erro ao adicionar herois", status : result};
+      }
+
       return {"message": `${createDadosHeroisDto.name} foi criado com sucesso` , "result": result};
     }
     catch(ex){

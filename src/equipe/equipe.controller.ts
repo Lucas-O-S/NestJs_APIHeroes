@@ -11,25 +11,26 @@ export class EquipeController {
   async registro(@Body() equipeDTO: CreateEquipeDto){
     try{
       const result = await this.equipeService.create(equipeDTO);
+      if(result != HttpStatus.CREATED){
+        return {message: "Erro ao criar equipe", status : result};
+      }
       return {Result: result, message: 'Equipe criada com sucesso'};
     }catch (error){
-      if(error instanceof ConflictException){
-        throw new ConflictException('Equipe com este nome já existe');
-      }
       throw error;
     }
   }
 
   @Get(":id")
-  async getEquipe(@Param("id", ParseIntPipe) id: number): Promise<Team>{
+  async getEquipe(@Param("id", ParseIntPipe) id: number){
     try{
-      return this.equipeService.findOne(id);;
+      const result = await this.equipeService.findOne(id);
 
+      if(result == null){
+        return {message: "Equipe não encontrada", error : HttpStatus.NOT_FOUND};
+      }
+      return this.equipeService.findOne(id);
     }
     catch(error){
-      if(error instanceof ConflictException){
-        throw new ConflictException('Equipe com este id não existe');
-      }
       throw error;
     }
   }

@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize'; // Alterar para Sequelize
 import { Team } from '../models/equipes.model';
 import { CreateEquipeDto } from './dto/create-equipe.dto';
@@ -17,7 +17,7 @@ export class EquipeService {
     });
 
     if(existingEquipe){
-      throw new ConflictException('Já existe um registro n tabela equipes com este nome.')
+      return HttpStatus.CONFLICT;
     }
 
     await this.equipeModel.create(equipeDto);
@@ -27,9 +27,7 @@ export class EquipeService {
 
   async findOne(id: number): Promise<Team>{
     const result : Team = await this.equipeModel.findOne({ where: {id}});
-    if(result == null){
-      throw new ConflictException('Equipe com este id não existe');
-    }
+
     return result;
   }
 
