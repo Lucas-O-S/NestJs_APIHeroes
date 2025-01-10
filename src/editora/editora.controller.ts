@@ -31,7 +31,7 @@ export class EditoraController {
       if(!result){
         return {message: "Editora não encontrada", status : HttpStatus.NOT_FOUND};
       }
-      return result;
+      return {result : result, status: HttpStatus.ACCEPTED};
       
       
     }
@@ -42,9 +42,10 @@ export class EditoraController {
   }
 
   @Get()
-  async getAllEditoras(): Promise<Editora[]> {
+  async getAllEditoras() {
     try{
-      return await this.editoraService.findAll();
+      const result =  await this.editoraService.findAll();
+      return {status : HttpStatus.ACCEPTED, result : result}
     }
     catch(error){
       throw error;

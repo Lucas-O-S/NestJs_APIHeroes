@@ -28,7 +28,7 @@ export class EquipeController {
       if(result == null){
         return {message: "Equipe não encontrada", error : HttpStatus.NOT_FOUND};
       }
-      return this.equipeService.findOne(id);
+      return {status : HttpStatus.ACCEPTED, result : result}
     }
     catch(error){
       throw error;
@@ -36,8 +36,10 @@ export class EquipeController {
   }
 
   @Get()
-  async getAllEquipe(): Promise<Team[]> {
-    return this.equipeService.findAll();
+  async getAllEquipe(){
+
+    const result = await this.equipeService.findAll();
+    return {status : HttpStatus.ACCEPTED, result : result};
   }
 
   

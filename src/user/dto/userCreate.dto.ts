@@ -3,7 +3,7 @@ import { IsDate, IsString, MinDate, MinLength } from "class-validator";
 import { IsEmail } from "sequelize-typescript";
 import { IsCEP } from "src/validators/CepValidator";
 
-export class User{
+export class CreateUserDTO{
 
     @IsString({message: "Nome deve ser string"})
     @MinLength(3, {message: "Nome deve conter mais de 3 caracteres"})
