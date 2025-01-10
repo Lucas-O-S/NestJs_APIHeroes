@@ -1,10 +1,11 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
 @Table({
-  tableName: "team",
+  tableName: 'studios',
   timestamps: false,
 })
-export class Team extends Model<Team> {
+export class Studio extends Model<Studio> {
+  
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
@@ -14,16 +15,22 @@ export class Team extends Model<Team> {
   })
   id: number;
 
-  @Column({
+  @Column({ 
       type: DataType.STRING,
-      allowNull: false,
       unique: true,
-  })
-  name : string;
+      allowNull: false,
+    })
+  name: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  creator : string;
+  nationality: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  history: string;
 }

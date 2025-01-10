@@ -37,10 +37,25 @@ CREATE TABLE IF NOT EXISTS heroes (
     weak_point VARCHAR(100),
     affiliation VARCHAR(100),
     story VARCHAR(255),
-    team INT,
+    team_id INT,
     genre VARCHAR(50),
     image1 BLOB,
     image2 BLOB,
     FOREIGN KEY (studio_id) REFERENCES studios(id),
-    FOREIGN KEY (team) REFERENCES team(id)
+    FOREIGN KEY (team_id) REFERENCES team(id)
+);
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fullname VARCHAR(100) NOT NULL,
+    nickname VARCHAR(100) NOT NULL,
+    birthdate DATE,
+    firstemail VARCHAR(100) NOT NULL,
+    secondemail VARCHAR(100),
+    logradouro VARCHAR(100),
+    address VARCHAR(100),
+    complement VARCHAR(100),
+    cep VARCHAR(9),
+    state VARCHAR(50),
+    city VARCHAR(100)
 );
