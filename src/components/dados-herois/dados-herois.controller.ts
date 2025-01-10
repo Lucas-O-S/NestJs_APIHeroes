@@ -1,12 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, UploadedFiles, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, BadRequestException, UsePipes, ParseIntPipe } from '@nestjs/common';
+import { Controller, Post, Body, UseInterceptors, UploadedFiles, BadRequestException} from '@nestjs/common';
 import { DadosHeroisService } from './dados-herois.service';
 import { CreateDadosHeroisDto } from './dto/create-dados-herois.dto';
-import { UpdateDadosHeroisDto } from './dto/update-dados-herois.dto';
-import {Heroes} from '../models/heroes.model';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { MinFileSizeValidator } from 'src/validators/min_file.validator';
-import { FileValidationPipe } from 'src/validators/FileValidation.validator';
-import { FileDtoInterceptor } from 'src/middleware/FileDto.interceptor';
+import {FilesInterceptor } from '@nestjs/platform-express';
 import { LogInterceptor } from './LogInterceptor';
 
 @Controller('herois')
@@ -15,8 +10,8 @@ export class DadosHeroisController {
 
   //interceptadores para buscar o campo de imagens e o validador de arquivos
   @UseInterceptors(
-    FilesInterceptor('imagens'), // Primeiro, processa os arquivos.
-    LogInterceptor, // Depois, executa o interceptor de log.
+    FilesInterceptor('imagens'), // Intercepta o upload
+    LogInterceptor, // Log de dados
   )
   @Post()
   async insere(
@@ -24,10 +19,14 @@ export class DadosHeroisController {
       @Body() createDadosHeroisDto: CreateDadosHeroisDto
   ) {
       try {
-          createDadosHeroisDto.image1 = files[0];
-          createDadosHeroisDto.image2 = files[1];
-
+          if (files.length > 0) {
+              // Converte arquivos para buffer antes de salvar no banco
+              createDadosHeroisDto.image1 = files[0]?.buffer || null;
+              createDadosHeroisDto.image2 = files[1]?.buffer || null;
+          }
+  
           const result = await this.dadosHeroisService.create(createDadosHeroisDto);
+  
           return {
               message: `${createDadosHeroisDto.name} foi criado com sucesso`,
               result,

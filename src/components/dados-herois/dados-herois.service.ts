@@ -1,16 +1,16 @@
-import { BadRequestException, HttpCode, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateDadosHeroisDto } from './dto/create-dados-herois.dto';
 import { UpdateDadosHeroisDto } from './dto/update-dados-herois.dto';
-import { Heroes } from 'src/models/heroes.model';
+import { Heroes } from '../../models/heroes.model';
 import { InjectModel } from '@nestjs/sequelize';
-import { EquipeService } from 'src/equipe/equipe.service';
+import { TeamService } from '../team/team.service';
 
 @Injectable()
 export class DadosHeroisService {
   constructor(
     @InjectModel(Heroes)
     private readonly heroesModel: typeof Heroes,
-    private readonly equipeService: EquipeService,
+    private readonly teamService: TeamService,
   ) {}
   
   async create(createDadosHeroisDto: CreateDadosHeroisDto) : Promise<HttpStatus> {
@@ -46,11 +46,11 @@ export class DadosHeroisService {
 
   private async VerifyForeignKey(hero: CreateDadosHeroisDto){
      
-      if(!await this.equipeService.exists(hero.studio_id)){
+      if(!await this.teamService.exists(hero.studio_id)){
         throw new BadRequestException('Estúdio não existe');
       }
     
-      if(!await this.equipeService.exists(hero.team)){
+      if(!await this.teamService.exists(hero.team)){
         throw new BadRequestException('Time não existe');
       }
     

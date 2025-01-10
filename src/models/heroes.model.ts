@@ -1,105 +1,92 @@
 import { Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
 import { Team } from './equipes.model';
-import { Editora } from './studio.model';
+import { Studio } from './studio.model';
 
 @Table({
   tableName: "heroes",
   timestamps: false,
 })
 export class Heroes extends Model<Heroes> {
-    @Column({
-      type: DataType.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      unique: true,
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+    unique: true,
   })
   id: number;
 
   @Column({
-      type: DataType.STRING,
-      allowNull: false,
+    type: DataType.STRING(100), // Define limite de 100 caracteres
+    allowNull: false,
   })
-  name : string;
+  name: string;
 
-  @ForeignKey(() => Editora)
+  @ForeignKey(() => Studio)
   @Column({
-      type: DataType.NUMBER,
-      allowNull: false,
+    type: DataType.INTEGER, 
+    allowNull: false,
   })
   studio_id: number;
 
   @Column({
-      type: DataType.STRING,
-      allowNull: false,
+    type: DataType.STRING(50), 
   })
   power_type: string;
 
   @Column({
-      type: DataType.STRING,
-      allowNull: false,
+    type: DataType.STRING(50), 
   })
   morality: string;
 
   @Column({
-      type: DataType.STRING,
-      allowNull: false,
+    type: DataType.STRING(255), 
   })
   first_appearance: string;
 
   @Column({
-      type: DataType.DATE,
-      allowNull: false,
+    type: DataType.DATEONLY, 
   })
   release_date: Date;
 
   @Column({
-      type: DataType.STRING,
-      allowNull: false,
+    type: DataType.STRING(50), 
   })
   creator: string;
 
   @Column({
-      type: DataType.STRING,
-      allowNull: false,
-  }) 
+    type: DataType.STRING(100), 
+  })
   weak_point: string;
 
   @Column({
-      type: DataType.STRING,
-      allowNull: false,
+    type: DataType.STRING(100), 
   })
   affiliation: string;
 
   @Column({
-      type: DataType.STRING,
-      allowNull: false,
+    type: DataType.STRING(255), 
   })
   story: string;
 
-  @ForeignKey (() => Team)
+  @ForeignKey(() => Team)
   @Column({
-      type: DataType.INTEGER,
-      allowNull: false,
+    type: DataType.INTEGER,
   })
-  team: number  
+  team_id: number;
 
   @Column({
-      type: DataType.STRING,
-      allowNull: false,
+    type: DataType.STRING(50),
   })
   genre: string;
 
   @Column({
-      type: DataType.BLOB,
-      allowNull: false,
+    type: DataType.BLOB, // Representa o campo BLOB para imagens
   })
-  image1: Express.Multer.File;
+  image1: Buffer; // Usar Buffer para armazenar blobs
 
   @Column({
-      type: DataType.BLOB,
-      allowNull: false,
+    type: DataType.BLOB, // Representa o campo BLOB para imagens
   })
-  image2: Express.Multer.File;
-
+  image2: Buffer; // Usar Buffer para armazenar blobs
 }

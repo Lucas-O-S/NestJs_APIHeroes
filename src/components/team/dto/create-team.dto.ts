@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString, MaxLength } from "class-validator";
 
-export class CreateEquipeDto {
+export class CreateTeamDto {
     
     
     @IsString({message: 'O campo nome deve ser uma string'})

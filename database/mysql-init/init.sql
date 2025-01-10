@@ -37,10 +37,10 @@ CREATE TABLE IF NOT EXISTS heroes (
     weak_point VARCHAR(100),
     affiliation VARCHAR(100),
     story VARCHAR(255),
-    team INT,
+    team_id INT,
     genre VARCHAR(50),
     image1 BLOB,
     image2 BLOB,
     FOREIGN KEY (studio_id) REFERENCES studios(id),
-    FOREIGN KEY (team) REFERENCES team(id)
+    FOREIGN KEY (team_id) REFERENCES team(id)
 );

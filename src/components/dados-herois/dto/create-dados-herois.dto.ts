@@ -72,7 +72,7 @@ export class CreateDadosHeroisDto {
     readonly genre : string;
 
     //variaveis para salvar as imagens
-    image1?: Express.Multer.File;
-    image2?: Express.Multer.File;
+    image1?: Buffer; // Alterado de Express.Multer.File para Buffer
+    image2?: Buffer;
 
 }
