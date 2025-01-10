@@ -11,20 +11,26 @@ export class StudioService {
     ) {}
   
   async create(studioDto: CreateStudioDto) : Promise<HttpStatus> {
-    try{
-      const existingStudio = await this.studioModel.findOne({where: { name: studioDto.name}
-      });
+    const existingStudio = await this.studioModel.findOne({where: { name: studioDto.name}});
 
-      if(existingStudio){
-        throw new ConflictException('Já existe um registro n tabela equipes com este nome.')
-      }
-
-      await this.studioModel.create(studioDto);
-
-      return HttpStatus.CREATED;
-    }catch(error){
-
+    if (existingStudio) {
+      return HttpStatus.CONFLICT;
     }
+
+    await this.studioModel.create(studioDto);
+
+    return HttpStatus.CREATED;
+
+  }
+
+  async findOne(id: number): Promise<Studio> {
+    const result = await this.studioModel.findOne({where: {id}});
+    
+    return result;
+  }
+
+  async findAll(): Promise<Studio[]> {
+    return await this.studioModel.findAll();
   }
 
   async exists(id: number) : Promise<boolean>{

@@ -1,6 +1,6 @@
-import { Controller, Post, Body, ConflictException } from '@nestjs/common';
-import { StudioService } from './studio.service';
+import { Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { CreateStudioDto } from './dto/create-studio.dto';
+import { StudioService } from './studio.service';
 
 @Controller('studio')
 export class StudioController {
@@ -8,13 +8,44 @@ export class StudioController {
 
   @Post()
   async registro(@Body() studioDto: CreateStudioDto) {
-    try{
+    try {
       const result = await this.studioService.create(studioDto);
-      return {result: result, message:'Studio criado com sucesso'};
-    }catch(error){
-      if(error instanceof ConflictException){
-        throw new ConflictException('Studio com este nome já existe!');
+      
+      if(result != HttpStatus.CREATED){
+        return {message: "Erro ao criar editora", status : result};
       }
+      return {result : result, message: `Editora ${studioDto.name} criada com sucesso`};
+
+    } catch (error) {
+
+      throw error; 
+    }
+  }
+  @Get(":id")
+  async getOneEditora(@Param("id", ParseIntPipe) id : number){
+    
+    try{
+      const result = await this.studioService.findOne(id);
+      if(!result){
+        return {message: "Editora não encontrada", status : HttpStatus.NOT_FOUND};
+      }
+      return {result : result, status: HttpStatus.ACCEPTED};
+      
+      
+    }
+    catch(error){
+
+      throw error;
+    }
+  }
+
+  @Get()
+  async getAllEditoras() {
+    try{
+      const result =  await this.studioService.findAll();
+      return {status : HttpStatus.ACCEPTED, result : result}
+    }
+    catch(error){
       throw error;
     }
   }
