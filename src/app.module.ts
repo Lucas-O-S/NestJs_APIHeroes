@@ -4,20 +4,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { SequelizeModule } from '@nestjs/sequelize';
 
 import {models, defineAssociations} from './models/index.model';
-import { DadosHeroisController } from './dados-herois/dados-herois.controller';
-import { DadosHeroisModule } from './dados-herois/dados-herois.module';
-import { EditoraModule } from './editora/editora.module';
-import { EditoraController } from './editora/editora.controller';
+import { DadosHeroisModule } from './components/dados-herois/dados-herois.module';
 import { MenuPrincipalModule } from './menu_principal/menu_principal.module';
 import { MenuPrincipalController } from './menu_principal/menu_principal.controller';
-import { EquipeModule } from './equipe/equipe.module';
-import { EquipeController } from './equipe/equipe.controller';
-import { MoralidadeModule } from './moralidade/moralidade.module';
-import { MoralidadeController } from './moralidade/moralidade.controller';
-import { OrigemModule } from './origem/origem.module';
-import { SexoModule } from './sexo/sexo.module';
-import { SexoController } from './sexo/sexo.controller';
-import { UserModule } from './user/user.module';
+import { TeamModule } from './components/team/team.module';
+import { TeamController } from './components/team/team.controller';
+import { StudioModule } from './components/studio/studio.module';
+import { DadosHeroisController } from './components/dados-herois/dados-herois.controller';
 
 @Module({
   imports: [
@@ -38,21 +31,14 @@ import { UserModule } from './user/user.module';
       synchronize: false, // Desative no ambiente de produção
     }),
     DadosHeroisModule,
-    EditoraModule,
     MenuPrincipalModule,
-    EquipeModule,
-    MoralidadeModule,
-    OrigemModule,
-    SexoModule,
-    UserModule,
+    TeamModule,
+    StudioModule,
   ],
   controllers: [
     DadosHeroisController,
-    EditoraController, 
     MenuPrincipalController, 
-    EquipeController, 
-    MoralidadeController,
-    SexoController
+    TeamController, 
   ],
   providers: [],
 })
