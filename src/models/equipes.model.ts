@@ -15,14 +15,14 @@ export class Team extends Model<Team> {
   id: number;
 
   @Column({
-      type: DataType.STRING,
+      type: DataType.STRING(100),
       allowNull: false,
       unique: true,
   })
   name : string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.STRING(50),
     allowNull: false,
   })
   creator : string;

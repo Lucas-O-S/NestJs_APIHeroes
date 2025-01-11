@@ -2,6 +2,7 @@ import { Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Post, Put } fro
 import { UserService } from "./user.service";
 import { CreateUserDTO } from "./dto/userCreate.dto";
 import { UpdateUserDTO } from "./dto/UserUpdate.dto";
+import { ApiResponse } from "src/interfaces/ApiResponce.interface";
 
 
 @Controller("user")
@@ -9,30 +10,56 @@ export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get('find-one-user/:id')
-    async FindOne(@Param("id",  ParseIntPipe) id){
-        const result = this.userService.FindOne(id);
-
-        if(!result){
-            return {status : HttpStatus.BAD_REQUEST, result: result};
-
+    async FindOne(@Param("id",  ParseIntPipe) id) : Promise<ApiResponse>{
+        try{
+            const result = this.userService.FindOne(id);
+    
+            return result
+        }
+        catch(error){
+            return { 
+                status: 500,
+                message: 'Erro inesperado ao registrar estúdio.',
+                error: error.message || error,
+              };
         }
 
-        return {status : HttpStatus.ACCEPTED, result: result};
     }
 
     @Post("resgister-user")
-    async Register(@Body() user : CreateUserDTO){
-        const result = this.userService.Register(user);
+    async Register(@Body() user : CreateUserDTO) : Promise<ApiResponse>{
+        try{
 
-        return{status: result, Message: "Usuario Criado com Sucesso"}
-    }
+            const result = this.userService.Register(user);
+
+            return result;
+        }
+        catch(error){
+            return { 
+                status: 500,
+                message: 'Erro inesperado ao registrar estúdio.',
+                error: error.message || error,
+              };
+            }
+        }
 
 
     @Put("update/:id")
-    async Update(@Body() user : UpdateUserDTO, @Param("id", ParseIntPipe) id : number){
-        const result = this.userService.Update(id, user);
+    async Update(@Body() user : UpdateUserDTO, @Param("id", ParseIntPipe) id : number) : Promise<ApiResponse>{
+        
+        try{
+            const result = this.userService.Update(id, user);
 
-        return{status: result, Message: "Usuario Atualizado com Sucesso"}
+            return result
+        }
+        catch(error){
+            return { 
+                status: 500,
+                message: 'Erro inesperado ao registrar estúdio.',
+                error: error.message || error,
+              };
+        }
+
     }
 
 

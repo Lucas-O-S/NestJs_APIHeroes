@@ -2,6 +2,8 @@ import { HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { User } from "src/models/user.model";
 import { UpdateUserDTO } from "./dto/UserUpdate.dto";
+import { ApiResponse } from "src/interfaces/ApiResponce.interface";
+import { CreateUserDTO } from "./dto/userCreate.dto";
 
 
 @Injectable()
@@ -12,34 +14,56 @@ export class UserService{
         private readonly userModel : typeof User
     ){}
 
-    async FindOne(id : number) : Promise<User>{
+    async FindOne(id : number) : Promise<ApiResponse<User>>{
 
         //To do: adicionar conexão ao sql
         const result = new User;
 
-        return result;
+        if(!result){
+            return { 
+                message: "Dado não encontrado", 
+                status: HttpStatus.NOT_FOUND,
+            };
+        }
+
+        return { 
+            message: "Busca realizada com sucesso", 
+            status: 200,
+            dataUnit: result,
+        };
     }
+        
+    
 
 
-    async Register(user : User) : Promise<HttpStatus>{
-        //To do: adicionar conexão ao sql
-
-        return HttpStatus.CREATED;
+    async Register(user : CreateUserDTO) : Promise<ApiResponse<CreateUserDTO>>{
+        const result = this.userModel.create(user)
+        return {message: "Busca realizada com sucesso", 
+            status: HttpStatus.CREATED,
+        }
     }
 
     
-    async Update(id : number, user : UpdateUserDTO) : Promise<HttpStatus>{
-        //To do: adicionar conexão ao sql
-        if(!this.Exist){
-            return HttpStatus.BAD_REQUEST;
+    async Update(id : number, user : UpdateUserDTO) : Promise<ApiResponse<UpdateUserDTO>>{
+
+        if(!this.Exist(id)){
+            return {message: "Requisição invalida", 
+                status: HttpStatus.NOT_FOUND,
+            }    
+                
         }
-        return HttpStatus.CREATED;
+        const result = this.userModel.update(user, {where : {id}});
+
+        return {message: "Busca realizada com sucesso", 
+            status: HttpStatus.CREATED,
+        }    
     }
 
-    async Exist(id: number){
+    async Exist(id: number): Promise<boolean>{
 
-        //To do buscar se existe o usuario e depois retornar V ou F
-
+        if(!this.userModel.findOne({where : {id}}))
+            return false
+        
         return true;
         
     }
