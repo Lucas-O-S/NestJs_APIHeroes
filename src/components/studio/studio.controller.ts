@@ -1,6 +1,10 @@
 import { Controller, Post, Body, ConflictException } from '@nestjs/common';
 import { StudioService } from './studio.service';
 import { CreateStudioDto } from './dto/create-studio.dto';
+<<<<<<< HEAD
+=======
+import {ApiResponse} from './studio.service'
+>>>>>>> 3d674fa0982b19cceff333b708e042c3b5757659
 
 @Controller('studio')
 export class StudioController {
