@@ -29,7 +29,7 @@ export class Studio extends Model<Studio> {
   nationality: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.TEXT,
     allowNull: false,
   })
   history: string;

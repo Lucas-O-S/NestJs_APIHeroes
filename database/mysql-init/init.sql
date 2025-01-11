@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS studios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     nationality VARCHAR(50),
-    history VARCHAR(255)
+    history TEXT
 );
 
 -- Criar a tabela "team"
