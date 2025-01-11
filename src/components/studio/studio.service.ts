@@ -29,18 +29,11 @@ export class StudioService {
         }
       }
 
-      await this.studioModel.create(studioDto);
+    await this.studioModel.create(studioDto);
 
-      return {
-        status: HttpStatus.CREATED,
-        message: 'Registro criado com sucesso!'
-      };
+      return HttpStatus.CREATED;
     }catch(error){
-      console.error("Erro no método create:", error);
-      return {
-        status: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: `Erro ao tentar registrar um novo studio: ${error.message || error}`
-      };
+
     }
   }
 

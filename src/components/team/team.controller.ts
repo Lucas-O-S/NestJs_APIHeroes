@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ConflictException, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ConflictException, ParseIntPipe, HttpStatus } from '@nestjs/common';
 import { TeamService } from './team.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
@@ -12,31 +12,39 @@ export class TeamController {
     async registro(@Body() teamDTO: CreateTeamDto){
       try{
         const result = await this.teamService.create(teamDTO);
-        return {Result: result, message: 'Equipe criada com sucesso'};
-      }catch (error){
-        if(error instanceof ConflictException){
-          throw new ConflictException('Equipe com este nome já existe');
+        
+        if(result != HttpStatus.CREATED){
+          return {message: "Erro ao criar equipe", status : result};
         }
+      
+        return {Result: result, message: 'Equipe criada com sucesso'};
+      
+      }catch (error){
         throw error;
       }
     }
   
+
     @Get(":id")
-    async getEquipe(@Param("id", ParseIntPipe) id: number): Promise<Team>{
+    async getEquipe(@Param("id", ParseIntPipe) id: number){
       try{
-        return this.teamService.findOne(id);;
+        const result = await this.teamService.findOne(id);
   
+        if(result == null){
+          return {message: "Equipe não encontrada", error : HttpStatus.NOT_FOUND};
+        }
+        return {status : HttpStatus.ACCEPTED, result : result}
       }
       catch(error){
-        if(error instanceof ConflictException){
-          throw new ConflictException('Equipe com este id não existe');
-        }
         throw error;
       }
     }
   
     @Get()
-    async getAllEquipe(): Promise<Team[]> {
-      return this.teamService.findAll();
+    async getAllEquipe(){
+  
+      const result = await this.teamService.findAll();
+      return {status : HttpStatus.ACCEPTED, result : result};
     }
+  
 }

@@ -4,6 +4,7 @@ import { UpdateDadosHeroisDto } from './dto/update-dados-herois.dto';
 import { Heroes } from '../../models/heroes.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { TeamService } from '../team/team.service';
+import { StudioService } from '../studio/studio.service';
 
 @Injectable()
 export class DadosHeroisService {
@@ -11,23 +12,22 @@ export class DadosHeroisService {
     @InjectModel(Heroes)
     private readonly heroesModel: typeof Heroes,
     private readonly teamService: TeamService,
+    private readonly studioService: StudioService,
   ) {}
   
   async create(createDadosHeroisDto: CreateDadosHeroisDto) : Promise<HttpStatus> {
     
     //Verifica se o estudio e o time existem 
-    await this.VerifyForeignKey(createDadosHeroisDto);
-
+    if(await this.VerifyForeignKey(createDadosHeroisDto)){
+      return HttpStatus.BAD_REQUEST;
+    }
     //Cria o heroi
     await this.heroesModel.create(createDadosHeroisDto);
     
     return HttpStatus.CREATED;
   }
 
- /* async getHeroesByPublisher(publisher): Promise<Heroes[]> {
-    return this.heroesModel.findAll({where: {editoraId:publisher}});
-  }
-*/
+
   findAll() {
     return `This action returns all dadosHerois`;
   }
@@ -46,13 +46,14 @@ export class DadosHeroisService {
 
   private async VerifyForeignKey(hero: CreateDadosHeroisDto){
      
-      if(!await this.teamService.exists(hero.studio_id)){
-        throw new BadRequestException('Estúdio não existe');
-      }
-    
-      if(!await this.teamService.exists(hero.team)){
-        throw new BadRequestException('Time não existe');
-      }
+    if(!await this.teamService.exists(hero.team)){
+      return false;
+    }
+  
+    if(!await this.studioService.exists(hero.studio_id)){
+      return false;
+    }
+    return true;
     
   }
 }
