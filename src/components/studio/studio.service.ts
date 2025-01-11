@@ -121,10 +121,17 @@ export class StudioService {
 
   async UpdateStudio(id: number, studioDto: CreateStudioDto): Promise<ApiResponse>{
     try{
-      const [affectedRows] = await this.studioModel.update(studioDto, {
+      
+      const affectedRows = await this.studioModel.update({
+        name: studioDto.name,
+        nationality: studioDto.nationality,
+        history: studioDto.history
+      }, 
+      {
         where: { id: id }
       });
-      if (affectedRows === 0) {
+
+      if (affectedRows[0] === 0) {
         return {
           status: HttpStatus.NOT_FOUND,
           message: 'Estúdio não encontrado.',
