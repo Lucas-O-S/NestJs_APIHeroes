@@ -1,14 +1,14 @@
 import { Controller, Post, Body, Get, Delete, Param, Put } from '@nestjs/common';
 import { StudioService } from './studio.service';
 import { CreateStudioDto } from './dto/create-studio.dto';
-import {ApiResponse} from './studio.service'
+import { ApiResponse } from 'src/interfaces/APIResponse.interface'; 
 
 @Controller('studio')
 export class StudioController {
   constructor(private readonly studioService: StudioService) {}
 
   @Post()
-  async registro(@Body() studioDto: CreateStudioDto): Promise<ApiResponse> {
+  async registro(@Body() studioDto: CreateStudioDto): Promise<ApiResponse<CreateStudioDto>> {
     try {
       const result = await this.studioService.create(studioDto);
       return result;
@@ -22,7 +22,7 @@ export class StudioController {
   }
 
   @Get('find-all-studio')
-  async findAllStudios(): Promise<ApiResponse>{
+  async findAllStudios(): Promise<ApiResponse<CreateStudioDto>>{
     try{
       const dadosStudios = await this.studioService.findAll();
       return dadosStudios;
@@ -36,7 +36,7 @@ export class StudioController {
   }
 
   @Delete('delete-one-studio/:id')
-  async deleteOneStudio(@Param('id') id: number): Promise<ApiResponse>{
+  async deleteOneStudio(@Param('id') id: number): Promise<ApiResponse<CreateStudioDto>>{
     try{
       const isDeleted = await this.studioService.DeleteOneStudio(id);
       return isDeleted;
@@ -50,7 +50,7 @@ export class StudioController {
   }
 
   @Get('find-one-studio/:id')
-  async findOneStudio(@Param('id') id: number): Promise<ApiResponse>{
+  async findOneStudio(@Param('id') id: number): Promise<ApiResponse<CreateStudioDto>>{
     try{
       const findStudio = await this.studioService.findOneStudio(id);
       return findStudio;
@@ -64,7 +64,7 @@ export class StudioController {
   }
 
   @Put('update/:id')
-  async updateStudio(@Param('id') id: number, @Body('data') data: CreateStudioDto): Promise<ApiResponse>{
+  async updateStudio(@Param('id') id: number, @Body('data') data: CreateStudioDto): Promise<ApiResponse<CreateStudioDto>>{
     try{
       const isUpdate = await this.studioService.UpdateStudio(id, data);
       return isUpdate;
