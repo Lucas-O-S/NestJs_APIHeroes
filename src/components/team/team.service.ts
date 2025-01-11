@@ -17,7 +17,7 @@ export class TeamService {
       });
   
       if(existingEquipe){
-        return HttpStatus.CONFLICT;
+        throw new ConflictException('Já existe um registro n tabela equipes com este nome.')
       }
   
       await this.equipeModel.create(equipeDto);
@@ -27,7 +27,9 @@ export class TeamService {
   
     async findOne(id: number): Promise<Team>{
       const result : Team = await this.equipeModel.findOne({ where: {id}});
-
+      if(result == null){
+        throw new ConflictException('Equipe com este id não existe');
+      }
       return result;
     }
   
