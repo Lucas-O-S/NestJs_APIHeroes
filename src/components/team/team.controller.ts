@@ -3,48 +3,61 @@ import { TeamService } from './team.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { Team } from 'src/models/equipes.model';
+import { ApiResponse } from 'src/interfaces/ApiResponce.interface';
 
 @Controller('team')
 export class TeamController {
   constructor(private readonly teamService: TeamService) {}
 
   @Post()
-    async registro(@Body() teamDTO: CreateTeamDto){
+    async registro(@Body() teamDTO: CreateTeamDto): Promise<ApiResponse>{
       try{
         const result = await this.teamService.create(teamDTO);
         
-        if(result != HttpStatus.CREATED){
-          return {message: "Erro ao criar equipe", status : result};
-        }
       
-        return {Result: result, message: 'Equipe criada com sucesso'};
+        return result;
       
       }catch (error){
-        throw error;
+
+        return {
+          status: 500,
+          message: 'Erro inesperado ao registrar Team.',
+          error: error.message || error,
+        };
+
       }
     }
   
 
-    @Get(":id")
-    async getEquipe(@Param("id", ParseIntPipe) id: number){
+    @Get('find-one-studio/:id')
+    async getEquipe(@Param("id", ParseIntPipe) id: number): Promise<ApiResponse>{
       try{
         const result = await this.teamService.findOne(id);
-  
-        if(result == null){
-          return {message: "Equipe não encontrada", error : HttpStatus.NOT_FOUND};
-        }
-        return {status : HttpStatus.ACCEPTED, result : result}
+
+        return result;
       }
       catch(error){
-        throw error;
+        return {
+          status: 500,
+          message: 'Erro inesperado ao buscar um estúdio.',
+          error: error.message || error,
+        };
       }
     }
   
-    @Get()
+    @Get('find-all-Team')
     async getAllEquipe(){
-  
-      const result = await this.teamService.findAll();
-      return {status : HttpStatus.ACCEPTED, result : result};
+      try{
+        const result = await this.teamService.findAll();
+        return result
+      }
+      catch(error){
+        return {
+          status: 500,
+          message: 'Erro inesperado ao buscar estúdio.',
+          error: error.message || error,
+        };
+      }
     }
   
 }

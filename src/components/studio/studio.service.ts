@@ -2,30 +2,29 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateStudioDto } from './dto/create-studio.dto';
 import {InjectModel } from '@nestjs/sequelize';
 import { Studio } from '../../models/studio.model';
+import { ApiResponse } from 'src/interfaces/ApiResponce.interface';
+import { UpdateStudioDto } from './dto/update-studio.dto';
 
-export interface ApiResponse {
-  status: HttpStatus;
-  message: string;
-  data?: CreateStudioDto[]; 
-  error?: string;
-  dataUnit?: CreateStudioDto;
-}
+
 
 @Injectable()
 export class StudioService {
+
+
   constructor(
       @InjectModel(Studio) 
       private studioModel: typeof Studio 
     ) {}
   
-  async create(studioDto: CreateStudioDto) : Promise<ApiResponse> {
+  async create(studioDto: CreateStudioDto) : Promise<ApiResponse<CreateStudioDto>> {
     try{
-      const existingStudio = await this.studioModel.findOne({where: { name: studioDto.name}
+      const existingStudio = await this.studioModel.findOne({
+        where: { name: studioDto.name}
       });
       if(existingStudio){
         return {
           status: HttpStatus.CONFLICT,
-          message:'Já existe um registro n tabela equipes com este nome.'
+          message:'Já existe um registro n tabela studio com este nome.'
         }
       }
 
@@ -49,7 +48,7 @@ export class StudioService {
     return studio != null;
   }  
 
-  async findAll(): Promise<ApiResponse>{
+  async findAll(): Promise<ApiResponse<Studio>>{
     try{
       const dadosStudios = await this.studioModel.findAll({attributes: ['id','name', 'nationality']});
       if (dadosStudios.length === 0){
@@ -72,7 +71,7 @@ export class StudioService {
     }
   }
 
-  async DeleteOneStudio(id: number): Promise<ApiResponse>{
+  async DeleteOneStudio(id: number): Promise<ApiResponse<null>>{
     try{
       const isDeleted = await this.studioModel.destroy({where:{id: id}});
       if(isDeleted > 0){
@@ -95,7 +94,7 @@ export class StudioService {
     }
   }
 
-  async findOneStudio(id: number): Promise<ApiResponse>{
+  async findOneStudio(id: number): Promise<ApiResponse<Studio>>{
     try{
       const isStudio = await this.studioModel.findOne({where:{id}});
       if(!isStudio){
@@ -119,7 +118,7 @@ export class StudioService {
     }
   }
 
-  async UpdateStudio(id: number, studioDto: CreateStudioDto): Promise<ApiResponse>{
+  async UpdateStudio(id: number, studioDto: CreateStudioDto): Promise<ApiResponse<UpdateStudioDto>>{
     try{
       const [affectedRows] = await this.studioModel.update(studioDto, {
         where: { id: id }

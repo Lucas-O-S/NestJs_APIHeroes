@@ -1,8 +1,7 @@
-import { Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Post } from '@nestjs/common';
-import { Controller, Post, Body, Get, Delete, Param, Put } from '@nestjs/common';
-import { StudioService } from './studio.service';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { CreateStudioDto } from './dto/create-studio.dto';
-import {ApiResponse} from './studio.service'
+import { StudioService } from './studio.service';
+import { ApiResponse } from 'src/interfaces/ApiResponce.interface';
 
 @Controller('studio')
 export class StudioController {
