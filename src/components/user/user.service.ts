@@ -17,8 +17,7 @@ export class UserService{
     async FindOne(id : number) : Promise<ApiResponse<User>>{
 
         //To do: adicionar conexão ao sql
-        const result = new User;
-
+        const result = await this.userModel.findOne({where : {id:id}});
         if(!result){
             return { 
                 message: "Dado não encontrado", 
@@ -37,7 +36,7 @@ export class UserService{
 
 
     async Register(user : CreateUserDTO) : Promise<ApiResponse<CreateUserDTO>>{
-        const result = this.userModel.create(user)
+        const result = await this.userModel.create(user)
         return {message: "Registro realizada com sucesso", 
             status: HttpStatus.CREATED,
         }
@@ -46,22 +45,22 @@ export class UserService{
     
     async Update(id : number, user : UpdateUserDTO) : Promise<ApiResponse<UpdateUserDTO>>{
 
-        if(!this.Exist(id)){
+        if(await !this.Exist(id)){
             return {message: "Requisição invalida", 
                 status: HttpStatus.NOT_FOUND,
             }    
                 
         }
-        const result = this.userModel.update(user, {where : {id}});
+        const result = await this.userModel.update(user, {where : {id}});
 
-        return {message: "Busca realizada com sucesso", 
+        return {message: "Alteração realizada com sucesso", 
             status: HttpStatus.CREATED,
         }    
     }
 
     async Exist(id: number): Promise<boolean>{
 
-        if(!this.userModel.findOne({where : {id}}))
+        if(await !this.userModel.findOne({where : {id}}))
             return false
         
         return true;
