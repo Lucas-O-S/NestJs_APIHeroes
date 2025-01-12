@@ -1,9 +1,8 @@
 import { ConflictException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateTeamDto } from './dto/create-team.dto';
-import { UpdateTeamDto } from './dto/update-team.dto';
 import { Team } from 'src/models/equipes.model';
 import { InjectModel } from '@nestjs/sequelize';
-import { ApiResponse } from 'src/interfaces/ApiResponce.interface';
+import { ApiResponse } from 'src/interfaces/APIResponse.interface';
 
 @Injectable()
 export class TeamService {

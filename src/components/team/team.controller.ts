@@ -1,9 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ConflictException, ParseIntPipe, HttpStatus } from '@nestjs/common';
 import { TeamService } from './team.service';
 import { CreateTeamDto } from './dto/create-team.dto';
-import { UpdateTeamDto } from './dto/update-team.dto';
-import { Team } from 'src/models/equipes.model';
-import { ApiResponse } from 'src/interfaces/ApiResponce.interface';
+import { ApiResponse } from 'src/interfaces/APIResponse.interface';
 
 @Controller('team')
 export class TeamController {

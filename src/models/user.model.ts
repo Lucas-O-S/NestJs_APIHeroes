@@ -1,9 +1,11 @@
-import { table } from "console";
-import { Model } from "sequelize";
-import { Column, DataType } from "sequelize-typescript";
+import { Column, DataType, Table,Model } from "sequelize-typescript";
 
 
-@table
+@Table({
+    tableName : "users",
+    timestamps: false,
+
+})
 export class User extends Model<User>{
   @Column({
     type: DataType.INTEGER,
@@ -39,7 +41,7 @@ export class User extends Model<User>{
         unique: true,
         allowNull: false,
     })
-    firstemail   : string;
+    firstemail : string;
 
     @Column({ 
         type: DataType.STRING(100),

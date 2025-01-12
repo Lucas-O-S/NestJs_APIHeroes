@@ -11,6 +11,7 @@ import { TeamModule } from './components/team/team.module';
 import { TeamController } from './components/team/team.controller';
 import { StudioModule } from './components/studio/studio.module';
 import { DadosHeroisController } from './components/dados-herois/dados-herois.controller';
+import { UserModule } from './components/user/user.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { DadosHeroisController } from './components/dados-herois/dados-herois.co
     MenuPrincipalModule,
     TeamModule,
     StudioModule,
+    UserModule,
   ],
   controllers: [
     DadosHeroisController,

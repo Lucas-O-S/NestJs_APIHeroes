@@ -2,8 +2,8 @@ import { HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { User } from "src/models/user.model";
 import { UpdateUserDTO } from "./dto/UserUpdate.dto";
-import { ApiResponse } from "src/interfaces/ApiResponce.interface";
 import { CreateUserDTO } from "./dto/userCreate.dto";
+import { ApiResponse } from "src/interfaces/APIResponse.interface";
 
 
 @Injectable()
@@ -38,7 +38,7 @@ export class UserService{
 
     async Register(user : CreateUserDTO) : Promise<ApiResponse<CreateUserDTO>>{
         const result = this.userModel.create(user)
-        return {message: "Busca realizada com sucesso", 
+        return {message: "Registro realizada com sucesso", 
             status: HttpStatus.CREATED,
         }
     }

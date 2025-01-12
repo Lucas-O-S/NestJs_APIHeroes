@@ -1,10 +1,11 @@
 import { Heroes } from './heroes.model';
 import { Studio } from './studio.model';
 import { Team } from './equipes.model';
+import { User } from './user.model';
 
-export { Heroes, Studio, Team };
+export { Heroes, Studio, Team, User };
 
-export const models = [Heroes, Studio, Team];
+export const models = [Heroes, Studio, Team, User];
 
 export function defineAssociations() {
     Heroes.belongsTo(Studio, { foreignKey: 'studioId', as: 'studio' });

@@ -1,24 +1,21 @@
-import { ValidationOptions } from "class-validator";
-import { Validator } from "sequelize";
+import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
 
-
-export function IsCEP(validationOptions?: ValidationOptions)  {
-    return function(target: any, propertyKey: string){
-        let originalMethod = target[propertyKey];
-
-        Object.defineProperty(target, propertyKey, {
-            get(){
-                return originalMethod;
-            },
-            set(value: string){
-                const cepFiltrado = /^\d{5}-?\d{3}$/;
-                if (!cepFiltrado.test(value)) {
-                    throw new Error(`Cep invalido`);
-                }
-                originalMethod = value;
-            },
-            enumerable: true,
-            configurable: true
-        })
-    }
+export function IsCEP(validationOptions?: ValidationOptions) {
+  return function (object: any, propertyName: string) {
+    registerDecorator({
+      name: 'isCEP',
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      validator: {
+        validate(value: string) {
+          const cepFiltrado = /^\d{5}-?\d{3}$/;
+          return cepFiltrado.test(value);
+        },
+        defaultMessage(args: ValidationArguments) {
+          return 'CEP inválido';
+        }
+      }
+    });
+  };
 }

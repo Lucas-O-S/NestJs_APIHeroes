@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Post, Put } fro
 import { UserService } from "./user.service";
 import { CreateUserDTO } from "./dto/userCreate.dto";
 import { UpdateUserDTO } from "./dto/UserUpdate.dto";
-import { ApiResponse } from "src/interfaces/ApiResponce.interface";
+import { ApiResponse } from "src/interfaces/APIResponse.interface";
 
 
 @Controller("user")
