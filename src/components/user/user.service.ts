@@ -54,7 +54,7 @@ export class UserService{
         const result = await this.userModel.update(user, {where : {id}});
 
         return {message: "Alteração realizada com sucesso", 
-            status: HttpStatus.CREATED,
+            status: 200,
         }    
     }
 
