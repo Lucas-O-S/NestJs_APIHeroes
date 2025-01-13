@@ -57,5 +57,6 @@ CREATE TABLE IF NOT EXISTS users (
     complement VARCHAR(100),
     cep VARCHAR(9),
     state VARCHAR(50),
-    city VARCHAR(100)
+    city VARCHAR(100),
+    password STRING(255)
 );

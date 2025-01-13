@@ -1,4 +1,4 @@
-import { Column, DataType, Table,Model } from "sequelize-typescript";
+import { Column, DataType, Table,Model, AllowNull } from "sequelize-typescript";
 
 
 @Table({
@@ -91,4 +91,10 @@ export class User extends Model<User>{
         allowNull: true,
     })
     city   : string;
+
+    @Column({
+        type: DataType.STRING(255),
+        allowNull: false
+    })
+    password : string
 }
