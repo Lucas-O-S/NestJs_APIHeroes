@@ -45,7 +45,7 @@ export class TeamController {
     }
   
     @Get('find-all-Team')
-    async getAllEquipe(){
+    async getAllEquipe() : Promise<ApiResponse>{
       try{
         const result = await this.teamService.findAll();
         return result
@@ -60,7 +60,7 @@ export class TeamController {
     }
 
     @Put("update/:id")
-    async update(@Body() team : UpdateTeamDto, @Param("id", ParseIntPipe) id : number ) {
+    async update(@Body() team : UpdateTeamDto, @Param("id", ParseIntPipe) id : number ): Promise<ApiResponse> {
       try{
         
         const result = await this.teamService.Update(team, id);
@@ -78,7 +78,7 @@ export class TeamController {
     }
 
     @Delete("delete-one-team/:id")
-    async Delete(@Param("id", ParseIntPipe) id : number){
+    async Delete(@Param("id", ParseIntPipe) id : number): Promise<ApiResponse>{
       try{
         
         const result = await this.teamService.Delete(id);
