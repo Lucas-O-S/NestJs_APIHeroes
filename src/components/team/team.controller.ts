@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ConflictException, ParseIntPipe, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ConflictException, ParseIntPipe, HttpStatus, Put } from '@nestjs/common';
 import { TeamService } from './team.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { ApiResponse } from 'src/interfaces/APIResponse.interface';
+import { UpdateTeamDto } from './dto/update-team.dto';
 
 @Controller('team')
 export class TeamController {
@@ -19,7 +20,7 @@ export class TeamController {
 
         return {
           status: 500,
-          message: 'Erro inesperado ao registrar Team.',
+          message: 'Erro inesperado ao registrar time.',
           error: error.message || error,
         };
 
@@ -37,7 +38,7 @@ export class TeamController {
       catch(error){
         return {
           status: 500,
-          message: 'Erro inesperado ao buscar um estúdio.',
+          message: 'Erro inesperado ao buscar um Time.',
           error: error.message || error,
         };
       }
@@ -52,7 +53,42 @@ export class TeamController {
       catch(error){
         return {
           status: 500,
-          message: 'Erro inesperado ao buscar estúdio.',
+          message: 'Erro inesperado ao buscar Time.',
+          error: error.message || error,
+        };
+      }
+    }
+
+    @Put("update/:id")
+    async update(@Body() team : UpdateTeamDto, @Param("id", ParseIntPipe) id : number ) {
+      try{
+        
+        const result = await this.teamService.Update(team, id);
+        return result;
+
+      }
+      catch(error){
+        return {
+          status: 500,
+          message: 'Erro inesperado ao atualizar Time.',
+          error: error.message || error,
+        };
+      }
+  
+    }
+
+    @Delete("delete-one-team/:id")
+    async Delete(@Param("id", ParseIntPipe) id : number){
+      try{
+        
+        const result = await this.teamService.Delete(id);
+        return result;
+
+      }
+      catch(error){
+        return {
+          status: 500,
+          message: 'Erro inesperado ao atualizar Time.',
           error: error.message || error,
         };
       }
