@@ -11,8 +11,5 @@ module.exports = {
     DB_USERNAME: config.DB_NAME,
     DB_PASSWORD: config.DB_PASSWORD,
     DB_NAME: config.DB_NAME,
-    MONGO_URL: config.MONGO_URL,
-    ENCRYPTION_KEY: ENCRYPTION_KEY,
-    SALT_ROUNDS: SALT_ROUNDS,
-    SECRET_KEY: SECRET_KEY
+    MONGO_URL: config.MONGO_URL
 }
