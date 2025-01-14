@@ -1,18 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/components/user/user.service';
+import {ConfigHelperService} from '../common/config-helper.service';
 import * as CryptoJS from 'crypto-js';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-    constructor(private usersService: UserService, private jwtService: JwtService) {}
+    constructor(
+        private usersService: UserService, 
+        private jwtService: JwtService,
+        private configHelper: ConfigHelperService
+    ) {}
 
 
     async generateHash(pass: string): Promise<any>{
         try{
-            const encryptionKey = process.env.ENCRYPTION_KEY;
-            const saltRounds = process.env.SALT_ROUNDS;
+            const encryptionKey = (await this.configHelper.getHash()).encryption_key;
+            const saltRounds = (await this.configHelper.getHash()).salt_rounds;
 
             if (!encryptionKey || !saltRounds) {
                 throw new Error("As variáveis de ambiente ENCRYPTION_KEY ou SALT_ROUNDS não estão configuradas.");
@@ -20,7 +25,7 @@ export class AuthService {
 
             const decryptedPassword = CryptoJS.AES.decrypt(pass, encryptionKey).toString(CryptoJS.enc.Utf8);
 
-            const salt = await bcrypt.genSalt(parseInt(saltRounds));
+            const salt = await bcrypt.genSalt(saltRounds);
             const hashedPassword = await bcrypt.hash(decryptedPassword, salt);
 
             return hashedPassword;
