@@ -4,6 +4,7 @@ import { User } from "src/models/user.model";
 import { UpdateUserDTO } from "./dto/UserUpdate.dto";
 import { CreateUserDTO } from "./dto/userCreate.dto";
 import { ApiResponse } from "src/interfaces/APIResponse.interface";
+import { AuthService } from "src/auth/auth.service";
 
 
 @Injectable()
@@ -11,12 +12,12 @@ export class UserService{
 
     constructor(
         @InjectModel(User)
-        private readonly userModel : typeof User
+        private readonly userModel : typeof User,
+        private authService: AuthService
     ){}
 
     async FindOne(id : number) : Promise<ApiResponse<User>>{
 
-        //To do: adicionar conexão ao sql
         const result = await this.userModel.findOne({where : {id:id}});
         if(!result){
             return { 
@@ -31,15 +32,34 @@ export class UserService{
             dataUnit: result,
         };
     }
-        
-    
-
 
     async Register(user : CreateUserDTO) : Promise<ApiResponse<CreateUserDTO>>{
-        const result = await this.userModel.create(user)
-        return {message: "Registro realizada com sucesso", 
-            status: HttpStatus.CREATED,
+        try {
+            const senhaHash = await this.authService.generateHash(user.password);
+            
+            if (senhaHash) {
+                user.password = senhaHash;
+                
+                await this.userModel.create(user);
+    
+                return {
+                    message: "Registro realizado com sucesso",
+                    status: HttpStatus.CREATED,
+                };
+            } else {
+                return {
+                    status: HttpStatus.BAD_REQUEST,  
+                    message: 'Houve um erro na conversão da senha em hash.',
+                };
+            }
+        } catch (error) {
+            console.error('Erro ao registrar o usuário:', error);
+            return {
+                status: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Erro ao registrar o usuário.',
+            };
         }
+        
     }
 
     
@@ -65,5 +85,9 @@ export class UserService{
         
         return true;
         
+    }
+
+    async findOneUser(email: string): Promise<any> {
+        return this.userModel.findOne({where:{firstemail: email}});
     }
 }

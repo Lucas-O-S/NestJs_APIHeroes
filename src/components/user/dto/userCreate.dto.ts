@@ -47,4 +47,8 @@ export class CreateUserDTO{
     
     @IsString({message: "cidade deve ser string"})
     city: string;
+
+    @IsString({message: "Senha não deve ser vazia"})
+    @IsNotEmpty()
+    password: string
 }
