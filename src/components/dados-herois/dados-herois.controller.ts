@@ -1,8 +1,9 @@
-import { Controller, Post, Body, UseInterceptors, UploadedFiles, BadRequestException, HttpStatus} from '@nestjs/common';
+import { Controller, Post, Body, UseInterceptors, UploadedFiles, BadRequestException, HttpStatus, Get} from '@nestjs/common';
 import { DadosHeroisService } from './dados-herois.service';
 import { CreateDadosHeroisDto } from './dto/create-dados-herois.dto';
 import {FilesInterceptor } from '@nestjs/platform-express';
 import { LogInterceptor } from './LogInterceptor';
+import { ApiResponse } from 'src/interfaces/APIResponse.interface';
 
 @Controller('herois')
 export class DadosHeroisController {
@@ -17,7 +18,7 @@ export class DadosHeroisController {
   async insere(
       @UploadedFiles() files: Array<Express.Multer.File>,
       @Body() createDadosHeroisDto: CreateDadosHeroisDto
-  ) {
+  ) : Promise<ApiResponse> {
       try {
           if (files.length > 0) {
               // Converte arquivos para buffer antes de salvar no banco
@@ -26,23 +27,32 @@ export class DadosHeroisController {
           }
   
           const result = await this.dadosHeroisService.create(createDadosHeroisDto);
-          
-          if(result == HttpStatus.BAD_REQUEST){
-            return {message: "Erro ao adicionar herois", status : result};
-          }
     
-          return {
-              message: `${createDadosHeroisDto.name} foi criado com sucesso`,
-              status : result,
-          };
-      } catch (ex) {
-          throw new BadRequestException(ex.message);
+          return result;
+      } catch (error) {
+        return {
+          status: 500,
+          message: 'Erro inesperado ao atualizar um estúdio.',
+          error: error.message || error,
+        };      
       }
   }
-/*
-  @Get('heroesByPublisher')
-  async getHeroesByPublisher(@Query('publisher') publisher: number): Promise<Heroes[]> {
-    return this.dadosHeroisService.getHeroesByPublisher(publisher);
+
+
+
+  @Get('find-all-heroes')
+  async getHeroesByPublisher(): Promise<ApiResponse> {
+    try{
+      const result = await this.dadosHeroisService.findAll();
+      return result;
+    }
+    catch(error){
+      return {
+        status: 500,
+        message: 'Erro inesperado ao atualizar um estúdio.',
+        error: error.message || error,
+      };      
+    }
   }
-    */
+  
 }

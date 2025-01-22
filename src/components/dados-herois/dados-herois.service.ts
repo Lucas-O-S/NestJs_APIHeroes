@@ -5,6 +5,7 @@ import { Heroes } from '../../models/heroes.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { TeamService } from '../team/team.service';
 import { StudioService } from '../studio/studio.service';
+import { ApiResponse } from 'src/interfaces/APIResponse.interface';
 
 @Injectable()
 export class DadosHeroisService {
@@ -15,21 +16,34 @@ export class DadosHeroisService {
     private readonly studioService: StudioService,
   ) {}
   
-  async create(createDadosHeroisDto: CreateDadosHeroisDto) : Promise<HttpStatus> {
+  async create(createDadosHeroisDto: CreateDadosHeroisDto) : Promise<ApiResponse> {
     
     //Verifica se o estudio e o time existem 
     if(await this.VerifyForeignKey(createDadosHeroisDto)){
-      return HttpStatus.BAD_REQUEST;
+      return {
+        message: "Erro ao adicionar herois",
+        status : HttpStatus.BAD_REQUEST
+      };
     }
     //Cria o heroi
     await this.heroesModel.create(createDadosHeroisDto);
     
-    return HttpStatus.CREATED;
+    return {
+      message: "Heroi adicionado com sucesso",
+      status : HttpStatus.OK
+
+    };
   }
 
 
-  findAll() {
-    return `This action returns all dadosHerois`;
+  async findAll() : Promise<ApiResponse<Heroes>> {
+    const result = await this.heroesModel.findAll();
+
+    return {
+      message: "Herois encontrados com sucesso",
+      status : HttpStatus.OK,
+      data: result
+    };
   }
 
   findOne(id: number) {
