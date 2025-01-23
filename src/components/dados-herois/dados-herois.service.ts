@@ -19,7 +19,7 @@ export class DadosHeroisService {
   async create(createDadosHeroisDto: CreateDadosHeroisDto) : Promise<ApiResponse> {
     
     //Verifica se o estudio e o time existem 
-    if(await this.VerifyForeignKey(createDadosHeroisDto)){
+    if(!await this.VerifyForeignKey(createDadosHeroisDto)){
       return {
         message: "Erro ao adicionar herois",
         status : HttpStatus.BAD_REQUEST
@@ -46,8 +46,20 @@ export class DadosHeroisService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dadosHerois`;
+  async findOne(id: number) : Promise<ApiResponse<Heroes>> {
+    const result = await this.heroesModel.findOne({where: {id}});
+
+    if(!result){
+      return {
+        message: "Registro não encontrado",
+        status : HttpStatus.NOT_FOUND
+      };
+    }
+    return {
+      message: "Registro encontrado com sucesso",
+      status : HttpStatus.OK,
+      dataUnit : result
+    };
   }
 
   update(id: number, updateDadosHeroisDto: UpdateDadosHeroisDto) {
@@ -60,11 +72,13 @@ export class DadosHeroisService {
 
   private async VerifyForeignKey(hero: CreateDadosHeroisDto){
      
-    if(!await this.teamService.exists(hero.team)){
+    if(!await this.teamService.exists(hero.team_id)){
+      console.log(`Time: ${hero.team_id}`);
       return false;
     }
   
     if(!await this.studioService.exists(hero.studio_id)){
+      console.log(`estudio: ${hero.team_id}`);
       return false;
     }
     return true;

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseInterceptors, UploadedFiles, BadRequestException, HttpStatus, Get} from '@nestjs/common';
+import { Controller, Post, Body, UseInterceptors, UploadedFiles, BadRequestException, HttpStatus, Get, ParseIntPipe, Param} from '@nestjs/common';
 import { DadosHeroisService } from './dados-herois.service';
 import { CreateDadosHeroisDto } from './dto/create-dados-herois.dto';
 import {FilesInterceptor } from '@nestjs/platform-express';
@@ -41,7 +41,7 @@ export class DadosHeroisController {
 
 
   @Get('find-all-heroes')
-  async getHeroesByPublisher(): Promise<ApiResponse> {
+  async getHeroesAllHeroes(): Promise<ApiResponse> {
     try{
       const result = await this.dadosHeroisService.findAll();
       return result;
@@ -54,5 +54,21 @@ export class DadosHeroisController {
       };      
     }
   }
+
+  @Get('find-one-studio/:id')
+  async getHeroById(@Param("id", ParseIntPipe) id : number): Promise<ApiResponse> {
+    try{
+      const result = await this.dadosHeroisService.findOne(id);
+      return result;
+    }
+    catch(error){
+      return {
+        status: 500,
+        message: 'Erro inesperado ao atualizar um estúdio.',
+        error: error.message || error,
+      };  
+
+    }
   
+  }
 }
