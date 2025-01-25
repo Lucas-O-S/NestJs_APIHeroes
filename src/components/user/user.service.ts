@@ -4,7 +4,7 @@ import { User } from "src/models/user.model";
 import { UpdateUserDTO } from "./dto/UserUpdate.dto";
 import { CreateUserDTO } from "./dto/userCreate.dto";
 import { ApiResponse } from "src/interfaces/APIResponse.interface";
-import { AuthService } from "src/auth/auth.service";
+import { AuthService } from "src/components/auth/auth.service";
 
 
 @Injectable()
@@ -89,5 +89,31 @@ export class UserService{
 
     async findOneUser(email: string): Promise<any> {
         return this.userModel.findOne({where:{firstemail: email}});
+    }
+
+    async signIn(email: string, pass: string): Promise<any> {
+        try{
+            
+
+            const user = await this.findOneUser(email);
+            if (!user) {
+                throw new Error("Usuário não encontrado.");
+            }
+
+            const match = await this.authService.validatyPassword(pass, user.password);
+            if (!match) {
+                throw new Error("Credenciais inválidas.");
+            }
+
+            return await this.authService.generateToken(user);            
+        }catch(error){
+            console.error("Erro ao realizar login:", error.message);
+
+            return {
+            status: 401,
+            message: "Credenciais inválidas ou usuário não encontrado.",
+            };
+        }
+    
     }
 }

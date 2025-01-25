@@ -1,8 +1,9 @@
-import { Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDTO } from "./dto/userCreate.dto";
 import { UpdateUserDTO } from "./dto/UserUpdate.dto";
 import { ApiResponse } from "src/interfaces/APIResponse.interface";
+import { CreateUserLoginDto } from "./dto/userLoginCreate.dto";
 
 
 @Controller("user")
@@ -62,6 +63,10 @@ export class UserController {
 
     }
 
-
+    @HttpCode(HttpStatus.OK)
+    @Post('login')
+    async signIn(@Body() signInDto: CreateUserLoginDto) {
+        return this.userService.signIn(signInDto.email, signInDto.password);
+    }
 
 }

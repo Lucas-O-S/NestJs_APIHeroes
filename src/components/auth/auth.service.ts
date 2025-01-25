@@ -1,23 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from 'src/components/user/user.service';
-import {ConfigHelperService} from '../common/config-helper.service';
 import * as CryptoJS from 'crypto-js';
 import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
     constructor(
-        private usersService: UserService, 
         private jwtService: JwtService,
-        private configHelper: ConfigHelperService
+        private config: ConfigService,
     ) {}
-
 
     async generateHash(pass: string): Promise<any>{
         try{
-            const encryptionKey = (await this.configHelper.getHash()).encryption_key;
-            const saltRounds = (await this.configHelper.getHash()).salt_rounds;
+            const encryptionKey = this.config.get('ENCRYPTION_KEY')
+            const saltRounds = this.config.get('SALT_ROUNDS')
 
             if (!encryptionKey || !saltRounds) {
                 throw new Error("As variáveis de ambiente ENCRYPTION_KEY ou SALT_ROUNDS não estão configuradas.");
@@ -35,40 +32,32 @@ export class AuthService {
         }
     }
 
-
-    async signIn(email: string, pass: string): Promise<any> {
+    async validatyPassword(pass: string, hash: string): Promise<any>{
         try{
-            const encryptionKey = process.env.ENCRYPTION_KEY;
+            const encryptionKey = this.config.get('ENCRYPTION_KEY')
             if (!encryptionKey) {
                 throw new Error("Chave de encriptação não configurada.");
             }
 
-            const user = await this.usersService.findOneUser(email);
-            if (!user) {
-                throw new Error("Usuário não encontrado.");
-            }
-
             const decryptedPassword = await CryptoJS.AES.decrypt(pass, encryptionKey).toString(CryptoJS.enc.Utf8);
 
-            const match = await bcrypt.compare(decryptedPassword, user.password);
+            return await bcrypt.compare(decryptedPassword, hash);
 
-            if (!match) {
-                throw new Error("Credenciais inválidas.");
-            }
+        }catch(error){
 
-            const payload = { sub: user.userId, username: user.username };
+        }
+        
+    }
+
+    async generateToken(userData: any): Promise<any>{
+        try{
+            const payload = { sub: userData.userId, username: userData.username };
             const accessToken = await this.jwtService.signAsync(payload);
 
             return { access_token: accessToken };
-            
         }catch(error){
-            console.error("Erro ao realizar login:", error.message);
 
-            return {
-            status: 401,
-            message: "Credenciais inválidas ou usuário não encontrado.",
-            };
         }
-    
     }
+    
 }
