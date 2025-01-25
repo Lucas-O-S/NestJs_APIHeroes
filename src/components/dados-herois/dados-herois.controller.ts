@@ -49,13 +49,13 @@ export class DadosHeroisController {
     catch(error){
       return {
         status: 500,
-        message: 'Erro inesperado ao atualizar um estúdio.',
+        message: 'Erro inesperado.',
         error: error.message || error,
       };      
     }
   }
 
-  @Get('find-one-studio/:id')
+  @Get('find-one-hero/:id')
   async getHeroById(@Param("id", ParseIntPipe) id : number): Promise<ApiResponse> {
     try{
       const result = await this.dadosHeroisService.findOne(id);
@@ -64,7 +64,7 @@ export class DadosHeroisController {
     catch(error){
       return {
         status: 500,
-        message: 'Erro inesperado ao atualizar um estúdio.',
+        message: 'Erro inesperado.',
         error: error.message || error,
       };  
 

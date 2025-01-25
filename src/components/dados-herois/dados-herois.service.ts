@@ -37,7 +37,9 @@ export class DadosHeroisService {
 
 
   async findAll() : Promise<ApiResponse<Heroes>> {
-    const result = await this.heroesModel.findAll();
+    const result = await this.heroesModel.findAll({
+      attributes: { exclude: ['studioId'] }, //Está puxando um campo inexistente chamado studioId não sei da onde sendo que deveria ter soemente studio_id
+    });
 
     return {
       message: "Herois encontrados com sucesso",
@@ -47,8 +49,8 @@ export class DadosHeroisService {
   }
 
   async findOne(id: number) : Promise<ApiResponse<Heroes>> {
-    const result = await this.heroesModel.findOne({where: {id}});
-
+    const result = await this.heroesModel.findOne({where: {id}, attributes: { exclude: ['studioId'] }}); //Está puxando um campo inexistente chamado studioId não sei da onde sendo que deveria ter soemente studio_id
+    
     if(!result){
       return {
         message: "Registro não encontrado",
