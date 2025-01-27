@@ -40,7 +40,6 @@ export class DadosHeroisService {
     const result = await this.heroesModel.findAll({
       attributes: { exclude: ['studioId'] }, //Está puxando um campo inexistente chamado studioId não sei da onde sendo que deveria ter soemente studio_id
     });
-
     return {
       message: "Herois encontrados com sucesso",
       status : HttpStatus.OK,
@@ -64,26 +63,67 @@ export class DadosHeroisService {
     };
   }
 
-  update(id: number, updateDadosHeroisDto: UpdateDadosHeroisDto) {
-    return `This action updates a #${id} dadosHerois`;
+  async update(id: number, updateDadosHeroisDto: UpdateDadosHeroisDto) {
+    if(!await this.Exists(id)){
+      return {
+        message: "Registro não encontrado",
+        status : HttpStatus.NOT_FOUND
+      };
+    }
+        //Verifica se o estudio e o time existem 
+        if(!await this.VerifyForeignKey(updateDadosHeroisDto)){
+          return {
+            message: "Erro ao adicionar herois",
+            status : HttpStatus.BAD_REQUEST
+          };
+        }
+        
+    await this.heroesModel.update(updateDadosHeroisDto, {where: {id}});
+    
+    return {
+      message: "Registro atualizado com sucesso",
+      status : HttpStatus.OK
+    };
+
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} dadosHerois`;
+  async remove(id: number) : Promise<ApiResponse> {
+    if(!await this.Exists(id)){
+      return {
+        message: "Registro não encontrado",
+        status : HttpStatus.NOT_FOUND
+      };
+    }
+    await this.heroesModel.destroy({where: {id}});
+    return {
+      message: "Registro deletado com sucesso",
+      status : HttpStatus.OK
+    };
   }
 
-  private async VerifyForeignKey(hero: CreateDadosHeroisDto){
+  private async VerifyForeignKey(hero){
      
-    if(!await this.teamService.exists(hero.team_id)){
+    
+    if( hero.team_id && !await this.teamService.exists(hero.team_id)){
       console.log(`Time: ${hero.team_id}`);
       return false;
     }
   
-    if(!await this.studioService.exists(hero.studio_id)){
+    if(hero.studio_id && !await this.studioService.exists(hero.studio_id)){
       console.log(`estudio: ${hero.team_id}`);
       return false;
     }
     return true;
     
+  }
+
+  async Exists(id: number){
+    const result = await this.heroesModel.findOne({
+      attributes: { exclude: ['studioId'] }, //Está puxando um campo inexistente chamado studioId não sei da onde sendo que deveria ter soemente studio_id
+    });    
+    if(result){
+      return true;
+    }
+    return false;
   }
 }
