@@ -12,7 +12,8 @@ services:
       MYSQL_PASSWORD: admin1234
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./database/mysql-init:/docker-entrypoint-initdb.d # Diretório para scripts de inicialização do MySQL
+      - ./database/mysql-init:/docker-entrypoint-initdb.d
+
     networks:
       - nestjs_network
 

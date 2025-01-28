@@ -22,7 +22,7 @@ export class AuthService {
 
             const decryptedPassword = CryptoJS.AES.decrypt(pass, encryptionKey).toString(CryptoJS.enc.Utf8);
 
-            const salt = await bcrypt.genSalt(saltRounds);
+            const salt = await bcrypt.genSalt(parseInt(saltRounds));
             const hashedPassword = await bcrypt.hash(decryptedPassword, salt);
 
             return hashedPassword;
@@ -54,9 +54,26 @@ export class AuthService {
             const payload = { sub: userData.userId, username: userData.username };
             const accessToken = await this.jwtService.signAsync(payload);
 
-            return { access_token: accessToken };
+            return accessToken; 
         }catch(error){
 
+        }
+    }
+
+    async generateRefreshToken(userData: any): Promise<any> {
+        try {
+            const payload = { sub: userData.userId, username: userData.username };
+            
+            // Configuração específica para o refresh token
+            const refreshToken = await this.jwtService.signAsync(payload, {
+                secret: process.env.JWT_REFRESH_SECRET || 'refresh-secret', 
+                expiresIn: '1d', 
+            });
+    
+            return refreshToken;
+        } catch (error) {
+            console.error('Erro ao gerar refresh token:', error);
+            throw new Error('Não foi possível gerar o refresh token.');
         }
     }
     
