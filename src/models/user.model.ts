@@ -1,4 +1,4 @@
-import { Column, DataType, Table,Model } from "sequelize-typescript";
+import { Column, DataType, Table,Model, Sequelize } from "sequelize-typescript";
 
 
 @Table({
@@ -51,11 +51,11 @@ export class User extends Model<User>{
     secondemail : string;
 
     @Column({ 
-        type: DataType.STRING(100),
+        type: DataType.STRING(3),
         unique: true,
         allowNull: true,
     })
-    logradouro  : string;
+    uf  : string;
 
     @Column({ 
         type: DataType.STRING(100),
@@ -91,4 +91,21 @@ export class User extends Model<User>{
         allowNull: true,
     })
     city   : string;
+
+    @Column({ 
+        type: DataType.STRING(100),
+        allowNull: false,
+    })
+    password: string;
+
+    @Column({
+        type: DataType.DATE,
+    })
+    created_at: Date;
+    
+    @Column({
+        type: DataType.DATE,
+        defaultValue: Sequelize.fn('NOW') 
+    })
+    updated_at: Date;
 }
