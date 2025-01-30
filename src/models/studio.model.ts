@@ -16,14 +16,14 @@ export class Studio extends Model<Studio> {
   id: number;
 
   @Column({ 
-      type: DataType.STRING,
+      type: DataType.STRING(100),
       unique: true,
       allowNull: false,
     })
   name: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.STRING(50),
     allowNull: false,
   })
   nationality: string;

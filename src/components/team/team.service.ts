@@ -1,8 +1,8 @@
-import { ConflictException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateTeamDto } from './dto/create-team.dto';
-import { UpdateTeamDto } from './dto/update-team.dto';
 import { Team } from 'src/models/equipes.model';
 import { InjectModel } from '@nestjs/sequelize';
+import { ApiResponse } from 'src/interfaces/APIResponse.interface';
 
 @Injectable()
 export class TeamService {
@@ -11,30 +11,58 @@ export class TeamService {
       private equipeModel: typeof Team 
     ) {}
   
-    async create(equipeDto: CreateTeamDto) : Promise<HttpStatus> {
+    async create(equipeDto: CreateTeamDto) : Promise<ApiResponse<CreateTeamDto>> {
       const existingEquipe = await this.equipeModel.findOne({
         where: { name: equipeDto.name}
       });
   
       if(existingEquipe){
-        throw new ConflictException('Já existe um registro n tabela equipes com este nome.')
+        return {
+          status: HttpStatus.CONFLICT,
+          message:'Já existe um registro na tabela Equipe com este nome.'
+        }      
       }
   
       await this.equipeModel.create(equipeDto);
   
-      return HttpStatus.CREATED;
+      return {
+        status: HttpStatus.CREATED,
+        message: "Registro criado com sucesso!"
+      };
     }
   
-    async findOne(id: number): Promise<Team>{
+    async findOne(id: number): Promise<ApiResponse<Team>>{
       const result : Team = await this.equipeModel.findOne({ where: {id}});
-      if(result == null){
-        throw new ConflictException('Equipe com este id não existe');
+      
+      if(!result){
+        return {
+          status: HttpStatus.CONFLICT,
+          message: 'Não foi possivel encontrar o registro desejado.'
+        }
       }
-      return result;
+      return  {
+        status:HttpStatus.OK,
+        message: 'Registro encontrado com sucesso!',
+        dataUnit: result
+      };
     }
   
-    async findAll(): Promise<Team[]> {
-      return await this.equipeModel.findAll(); // Usar equipeModel
+    async findAll(): Promise<ApiResponse<Team>> {
+      const result = await this.equipeModel.findAll();
+
+      if(result.length === 0){
+        return {
+          status: HttpStatus.NO_CONTENT,
+          message: 'Nenhum estúdio encontrado.'
+        };
+      }
+      
+      return{
+        status: HttpStatus.OK,
+        message: 'Estúdios encontrados com sucesso.',
+        data: result
+      }
+      
     }
   
     async exists(id: number): Promise<boolean>{

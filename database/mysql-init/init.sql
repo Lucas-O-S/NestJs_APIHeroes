@@ -1,8 +1,3 @@
-
-/*
-Exemplo de como criar as tabelas no mysql com docker
-*/
-
 -- Criar o banco de dados
 CREATE DATABASE IF NOT EXISTS HeroesPlataform;
 
@@ -45,17 +40,31 @@ CREATE TABLE IF NOT EXISTS heroes (
     FOREIGN KEY (team_id) REFERENCES team(id)
 );
 
+-- Criar a tabela "users"
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     fullname VARCHAR(100) NOT NULL,
-    nickname VARCHAR(100) NOT NULL,
+    nickname VARCHAR(50) NOT NULL UNIQUE,
     birthdate DATE,
-    firstemail VARCHAR(100) NOT NULL,
+    firstemail VARCHAR(100) NOT NULL UNIQUE,
     secondemail VARCHAR(100),
-    logradouro VARCHAR(100),
-    address VARCHAR(100),
+    uf VARCHAR(3),
+    address VARCHAR(150),
     complement VARCHAR(100),
-    cep VARCHAR(9),
-    state VARCHAR(50),
-    city VARCHAR(100)
+    cep CHAR(8),
+    state CHAR(100) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE IF NOT EXISTS roles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    role VARCHAR(50) NOT NULL,
+    usuario_id INT NOT NULL,
+    access VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

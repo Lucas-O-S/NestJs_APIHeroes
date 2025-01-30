@@ -2,51 +2,41 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateStudioDto } from './dto/create-studio.dto';
 import {InjectModel } from '@nestjs/sequelize';
 import { Studio } from '../../models/studio.model';
-
-export interface ApiResponse {
-  status: HttpStatus;
-  message: string;
-  data?: CreateStudioDto[]; 
-  error?: string;
-  dataUnit?: CreateStudioDto;
-}
+import { ApiResponse } from 'src/interfaces/APIResponse.interface';
 
 @Injectable()
 export class StudioService {
+
+
   constructor(
       @InjectModel(Studio) 
       private studioModel: typeof Studio 
     ) {}
   
-<<<<<<< HEAD
-  async create(studioDto: CreateStudioDto) : Promise<HttpStatus> {
+  async create(studioDto: CreateStudioDto) : Promise<ApiResponse<CreateStudioDto>> {
     try{
-      const existingStudio = await this.studioModel.findOne({where: { name: studioDto.name}
-      });
-
-      if(existingStudio){
-        throw new ConflictException('Já existe um registro n tabela equipes com este nome.')
-      }
-
-      await this.studioModel.create(studioDto);
-=======
-  async create(studioDto: CreateStudioDto) : Promise<ApiResponse> {
-    try{
-      const existingStudio = await this.studioModel.findOne({where: { name: studioDto.name}
+      const existingStudio = await this.studioModel.findOne({
+        where: { name: studioDto.name}
       });
       if(existingStudio){
         return {
           status: HttpStatus.CONFLICT,
-          message:'Já existe um registro n tabela equipes com este nome.'
+          message:'Já existe um registro n tabela studio com este nome.'
         }
       }
 
-    await this.studioModel.create(studioDto);
->>>>>>> 3d674fa0982b19cceff333b708e042c3b5757659
+      await this.studioModel.create(studioDto);
 
-      return HttpStatus.CREATED;
+      return {
+        status: HttpStatus.CREATED,
+        message: 'Registro criado com sucesso!'
+      };
     }catch(error){
-
+      console.error("Erro no método create:", error);
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: `Erro ao tentar registrar um novo studio: ${error.message || error}`
+      };
     }
   }
 
@@ -55,7 +45,7 @@ export class StudioService {
     return studio != null;
   }  
 
-  async findAll(): Promise<ApiResponse>{
+  async findAll(): Promise<ApiResponse<CreateStudioDto>>{
     try{
       const dadosStudios = await this.studioModel.findAll({attributes: ['id','name', 'nationality']});
       if (dadosStudios.length === 0){
@@ -78,7 +68,7 @@ export class StudioService {
     }
   }
 
-  async DeleteOneStudio(id: number): Promise<ApiResponse>{
+  async DeleteOneStudio(id: number): Promise<ApiResponse<CreateStudioDto>>{
     try{
       const isDeleted = await this.studioModel.destroy({where:{id: id}});
       if(isDeleted > 0){
@@ -101,7 +91,7 @@ export class StudioService {
     }
   }
 
-  async findOneStudio(id: number): Promise<ApiResponse>{
+  async findOneStudio(id: number): Promise<ApiResponse<CreateStudioDto>>{
     try{
       const isStudio = await this.studioModel.findOne({where:{id}});
       if(!isStudio){
@@ -125,12 +115,19 @@ export class StudioService {
     }
   }
 
-  async UpdateStudio(id: number, studioDto: CreateStudioDto): Promise<ApiResponse>{
+  async UpdateStudio(id: number, studioDto: CreateStudioDto): Promise<ApiResponse<CreateStudioDto>>{
     try{
-      const [affectedRows] = await this.studioModel.update(studioDto, {
+      
+      const affectedRows = await this.studioModel.update({
+        name: studioDto.name,
+        nationality: studioDto.nationality,
+        history: studioDto.history
+      }, 
+      {
         where: { id: id }
       });
-      if (affectedRows === 0) {
+
+      if (affectedRows[0] === 0) {
         return {
           status: HttpStatus.NOT_FOUND,
           message: 'Estúdio não encontrado.',
