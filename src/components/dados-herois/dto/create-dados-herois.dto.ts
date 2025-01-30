@@ -64,7 +64,7 @@ export class CreateDadosHeroisDto {
     @IsNumber({}, { message: "Time deve ser um número" })
     @IsNotEmpty({message: "Time não pode estar vazio"})
     @Transform(({ value }) => parseInt(value)) 
-    readonly team: number;
+    readonly team_id: number;
 
     @IsString({message: "genero deve ser string"})
     @MinLength(2, {message: "genero deve Conter mais de vinte caracteres"})
