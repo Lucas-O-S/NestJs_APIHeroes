@@ -5,7 +5,7 @@ import { AuthModule } from "src/components/auth/auth.module";
 import { DadosHeroisModule } from "src/components/dados-herois/dados-herois.module";
 import { StudioModule } from "src/components/studio/studio.module";
 import { TeamModule } from "src/components/team/team.module";
-import { UserModule } from "src/components/user/user.module";
+import { UserModule } from "../components/user/user.module";
 import { MenuPrincipalModule } from "src/menu_principal/menu_principal.module";
 import { models } from "src/models/index.model";
 

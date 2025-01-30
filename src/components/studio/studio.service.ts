@@ -21,7 +21,7 @@ export class StudioService {
       if(existingStudio){
         return {
           status: HttpStatus.CONFLICT,
-          message:'Já existe um registro n tabela studio com este nome.'
+          message:'Já existe um registro na tabela studio com este nome.'
         }
       }
 
@@ -119,14 +119,16 @@ export class StudioService {
     try{
       
       const affectedRows = await this.studioModel.update({
-        name: studioDto.name,
-        nationality: studioDto.nationality,
-        history: studioDto.history
-      }, 
-      {
-        where: { id: id }
-      });
+          name: studioDto.name,
+          nationality: studioDto.nationality,
+          history: studioDto.history
+        }, 
+        {
+          where: { id: id }
+        });
 
+      console.log(affectedRows);
+      
       if (affectedRows[0] === 0) {
         return {
           status: HttpStatus.NOT_FOUND,

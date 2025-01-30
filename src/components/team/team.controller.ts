@@ -8,10 +8,10 @@ export class TeamController {
   constructor(private readonly teamService: TeamService) {}
 
   @Post()
-  async registro(@Body() teamDTO: CreateTeamDto): Promise<any>{
+  async registro(@Body("data") teamDTO: CreateTeamDto): Promise<any>{
     try{
-      await this.teamService.create(teamDTO);
-      return {message: 'Equipe criada com sucesso'};
+      const result = await this.teamService.create(teamDTO);
+      return result;
     }catch (error){
       if(error instanceof ConflictException){
         throw new ConflictException('Equipe com este nome já existe');

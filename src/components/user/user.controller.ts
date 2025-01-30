@@ -11,10 +11,10 @@ import {
     Put 
   } from "@nestjs/common";
   import { UserService } from "./user.service";
-  import { CreateUserDTO } from "./dto/UserCreate.dto";
-  import { UpdateUserDTO } from "./dto/UserUpdate.dto";
-  import { ApiResponse } from "src/interfaces/APIResponse.interface";
-  import { CreateUserLoginDto } from "./dto/UserLoginCreate.dto";
+  import { CreateUserDTO } from "../user/dto/UserCreate.dto";
+  import { UpdateUserDTO } from "../user/dto/UserUpdate.dto";
+  import { ApiResponse } from "../../interfaces/APIResponse.interface";
+  import { CreateUserLoginDto } from "../user/dto/UserLoginCreate.dto";
   
   @Controller("user")
   export class UserController {
