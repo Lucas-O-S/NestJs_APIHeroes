@@ -1,4 +1,4 @@
-import { ConflictException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { Team } from 'src/models/equipes.model';
 import { InjectModel } from '@nestjs/sequelize';
@@ -32,6 +32,7 @@ export class TeamService {
   
     async findOne(id: number): Promise<ApiResponse<Team>>{
       const result : Team = await this.equipeModel.findOne({ where: {id}});
+      
       if(!result){
         return {
           status: HttpStatus.NOT_FOUND,

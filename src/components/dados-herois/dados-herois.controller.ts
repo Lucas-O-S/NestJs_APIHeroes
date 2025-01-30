@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseInterceptors, UploadedFiles, BadRequestException, HttpStatus} from '@nestjs/common';
+import { Controller, Post, Body, UseInterceptors, UploadedFiles, BadRequestException} from '@nestjs/common';
 import { DadosHeroisService } from './dados-herois.service';
 import { CreateDadosHeroisDto } from './dto/create-dados-herois.dto';
 import {FilesInterceptor } from '@nestjs/platform-express';
@@ -26,14 +26,10 @@ export class DadosHeroisController {
           }
   
           const result = await this.dadosHeroisService.create(createDadosHeroisDto);
-          
-          if(result == HttpStatus.BAD_REQUEST){
-            return {message: "Erro ao adicionar herois", status : result};
-          }
-    
+  
           return {
               message: `${createDadosHeroisDto.name} foi criado com sucesso`,
-              status : result,
+              result,
           };
       } catch (ex) {
           throw new BadRequestException(ex.message);
