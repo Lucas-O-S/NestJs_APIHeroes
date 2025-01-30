@@ -25,7 +25,7 @@ export class StudioService {
         }
       }
 
-    await this.studioModel.create(studioDto);
+      await this.studioModel.create(studioDto);
 
       return {
         status: HttpStatus.CREATED,

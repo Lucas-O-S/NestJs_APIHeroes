@@ -1,10 +1,9 @@
-import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateDadosHeroisDto } from './dto/create-dados-herois.dto';
 import { UpdateDadosHeroisDto } from './dto/update-dados-herois.dto';
 import { Heroes } from '../../models/heroes.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { TeamService } from '../team/team.service';
-import { StudioService } from '../studio/studio.service';
 import { ApiResponse } from 'src/interfaces/APIResponse.interface';
 
 @Injectable()
@@ -13,7 +12,7 @@ export class DadosHeroisService {
     @InjectModel(Heroes)
     private readonly heroesModel: typeof Heroes,
     private readonly teamService: TeamService,
-    private readonly studioService: StudioService,
+    private readonly studioService: TeamService 
   ) {}
   
   async create(createDadosHeroisDto: CreateDadosHeroisDto) : Promise<ApiResponse> {
@@ -34,7 +33,6 @@ export class DadosHeroisService {
 
     };
   }
-
 
   async findAll() : Promise<ApiResponse<Heroes>> {
     const result = await this.heroesModel.findAll({
@@ -102,8 +100,6 @@ export class DadosHeroisService {
   }
 
   private async VerifyForeignKey(hero){
-     
-    
     if( hero.team_id && !await this.teamService.exists(hero.team_id)){
       console.log(`Time: ${hero.team_id}`);
       return false;

@@ -15,6 +15,7 @@ export class DadosHeroisController {
     FilesInterceptor('imagens'), // Intercepta o upload
     LogInterceptor, // Log de dados
   )
+
   @Post()
   async insere(
       @UploadedFiles() files: Array<Express.Multer.File>,
@@ -38,8 +39,6 @@ export class DadosHeroisController {
         };      
       }
   }
-
-
 
   @Get('find-all-heroes')
   async getHeroesAllHeroes(): Promise<ApiResponse> {
