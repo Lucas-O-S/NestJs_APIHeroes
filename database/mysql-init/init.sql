@@ -68,3 +68,27 @@ CREATE TABLE IF NOT EXISTS roles (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+CREATE TABLE if not exists curiosities(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) not null,
+    caption VARCHAR(100) not null,
+    author VARCHAR(50) not null,
+    front VARCHAR(50),
+    description_front varchar(100),
+    creared_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+)
+
+CREATE TABLE if not exists articles(
+    id int AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) not null,
+    caption VARCHAR(100) not null,
+    author VARCHAR(50) not null,
+    front VARCHAR(50),
+    description_front varchar(100),
+    creared_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
+
