@@ -35,7 +35,7 @@ export class Article extends Model<Article>{
     @Column({
         type: DataType.STRING(50),
     })
-    frot: string;
+    font: string;
 
     @Column({
         type: DataType.STRING(100),

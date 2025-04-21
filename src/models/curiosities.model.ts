@@ -35,7 +35,7 @@ export class Curiosities extends Model<Curiosities>{
     @Column({
         type: DataType.STRING(50),
     })
-    frot: string;
+    font: string;
 
     @Column({
         type: DataType.STRING(100),

@@ -74,9 +74,9 @@ CREATE TABLE if not exists curiosities(
     title VARCHAR(100) not null,
     caption VARCHAR(100) not null,
     author VARCHAR(50) not null,
-    front VARCHAR(50),
-    description_front varchar(100),
-    creared_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    font VARCHAR(50),
+    description_font varchar(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 
 )
@@ -86,9 +86,9 @@ CREATE TABLE if not exists articles(
     title VARCHAR(100) not null,
     caption VARCHAR(100) not null,
     author VARCHAR(50) not null,
-    front VARCHAR(50),
-    description_front varchar(100),
-    creared_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    font VARCHAR(50),
+    description_font varchar(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )
 
