@@ -4,7 +4,7 @@ import { CreateArticleDto } from "./dto/articlesCreate.dto";
 import { ApiResponse } from "src/interfaces/APIResponse.interface";
 import { UpdateArticlesDto } from "./dto/articlesUpdate.dto";
 
-@Controller("curiosities")
+@Controller("articles")
 export class ArticlesController {
 
     constructor(private readonly ArticlesService : ArticlesService){}
@@ -37,7 +37,7 @@ export class ArticlesController {
         }
     }
 
-    @Get('find-one-curiositie/:id')
+    @Get('find-one-article/:id')
     async findOne(@Param("id") id: number): Promise<ApiResponse<CreateArticleDto>> {
         try{
             const result = await this.ArticlesService.findOne(id);
@@ -51,7 +51,7 @@ export class ArticlesController {
         }
     }
 
-    @Get('find-all-curiosities')
+    @Get('find-all-articles')
     async findAll(): Promise<ApiResponse<CreateArticleDto>> {
         try{
             const result = await this.ArticlesService.findAll();
@@ -65,7 +65,7 @@ export class ArticlesController {
         }
     }
 
-    @Delete('delete-one-curiositie/:id')
+    @Delete('delete-one-article/:id')
     async deleteOne(@Param("id") id: number): Promise<ApiResponse<CreateArticleDto>> {
         try{
             const result = await this.ArticlesService.delete(id);

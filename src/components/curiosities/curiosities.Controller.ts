@@ -37,7 +37,7 @@ export class CuriositiesController {
         }
     }
 
-    @Get('find-one-curiositie/:id')
+    @Get('find-one-curiosity/:id')
     async findOne(@Param("id") id: number): Promise<ApiResponse<CreateCuriositiesDto>> {
         try{
             const result = await this.curiositiesService.findOne(id);
@@ -65,7 +65,7 @@ export class CuriositiesController {
         }
     }
 
-    @Delete('delete-one-curiositie/:id')
+    @Delete('delete-one-curiosity/:id')
     async deleteOne(@Param("id") id: number): Promise<ApiResponse<CreateCuriositiesDto>> {
         try{
             const result = await this.curiositiesService.delete(id);

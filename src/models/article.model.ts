@@ -40,5 +40,5 @@ export class Article extends Model<Article>{
     @Column({
         type: DataType.STRING(100),
     })
-    description:string;
+    description_font:string;
 }

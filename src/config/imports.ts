@@ -8,6 +8,8 @@ import { TeamModule } from "src/components/team/team.module";
 import { UserModule } from "../components/user/user.module";
 import { MenuPrincipalModule } from "src/menu_principal/menu_principal.module";
 import { models } from "src/models/index.model";
+import { CuriositiesModule } from "src/components/curiosities/curiosities.Module";
+import { ArticleModule } from "src/components/articles/articles.Module";
 
 
 export const Imports = [
@@ -37,4 +39,7 @@ export const Imports = [
     StudioModule,
     UserModule,
     AuthModule,
+    CuriositiesModule,
+    ArticleModule,
+
 ]

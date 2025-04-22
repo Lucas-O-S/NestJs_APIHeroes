@@ -1,10 +1,11 @@
-import {InjectModel } from '@nestjs/sequelize';
+import { HttpStatus, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { ApiResponse } from 'src/interfaces/APIResponse.interface';
 import { Curiosities } from "src/models/curiosities.model";
 import { CreateCuriositiesDto } from './dto/curiositiesCreate.dto';
-import { ApiResponse } from 'src/interfaces/APIResponse.interface';
-import { HttpStatus } from '@nestjs/common';
 import { UpdateCuriositiesDto } from './dto/curiositiesUpdate.dto';
 
+@Injectable()
 export class CuriositiesService{
 
     constructor(
@@ -142,4 +143,8 @@ export class CuriositiesService{
     }
 
 
+}
+
+function injectable(): (target: typeof CuriositiesService) => void | typeof CuriositiesService {
+    throw new Error('Function not implemented.');
 }

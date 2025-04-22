@@ -12,4 +12,4 @@ import { ArticlesController } from "./articles.Controller";
     providers: [ArticlesService],
     exports: [ArticlesService]
 })
-export class CuriositiesModule {}
+export class ArticleModule {}
