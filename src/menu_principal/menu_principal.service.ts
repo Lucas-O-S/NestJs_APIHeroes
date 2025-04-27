@@ -10,8 +10,8 @@ export class MenuPrincipalService {
   async getData(): Promise<any> {
     try {
       const dadosMenu = await Promise.all([
-        Studio.findAll({ attributes: ['nome'] }),
-        Team.findAll({ attributes: ['nome'] }),
+        Studio.findAll({ attributes: ['name'] }),
+        Team.findAll({ attributes: ['name'] }),
       ]);
   
       // Verifica se todos os resultados foram retornados corretamente

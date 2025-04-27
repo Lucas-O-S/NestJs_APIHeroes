@@ -2,7 +2,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateStudioDto } from './dto/create-studio.dto';
 import {InjectModel } from '@nestjs/sequelize';
 import { Studio } from '../../models/studio.model';
-import { ApiResponse } from 'src/interfaces/APIResponse.interface';
+import { ApiResponseInterface } from 'src/interfaces/APIResponse.interface';
 
 @Injectable()
 export class StudioService {
@@ -13,7 +13,7 @@ export class StudioService {
       private studioModel: typeof Studio 
     ) {}
   
-  async create(studioDto: CreateStudioDto) : Promise<ApiResponse<CreateStudioDto>> {
+  async create(studioDto: CreateStudioDto) : Promise<ApiResponseInterface<CreateStudioDto>> {
     try{
       const existingStudio = await this.studioModel.findOne({
         where: { name: studioDto.name}
@@ -45,7 +45,7 @@ export class StudioService {
     return studio != null;
   }  
 
-  async findAll(): Promise<ApiResponse<CreateStudioDto>>{
+  async findAll(): Promise<ApiResponseInterface<CreateStudioDto>>{
     try{
       const dadosStudios = await this.studioModel.findAll({attributes: ['id','name', 'nationality']});
       if (dadosStudios.length === 0){
@@ -68,7 +68,7 @@ export class StudioService {
     }
   }
 
-  async DeleteOneStudio(id: number): Promise<ApiResponse<CreateStudioDto>>{
+  async DeleteOneStudio(id: number): Promise<ApiResponseInterface<CreateStudioDto>>{
     try{
       const isDeleted = await this.studioModel.destroy({where:{id: id}});
       if(isDeleted > 0){
@@ -91,7 +91,7 @@ export class StudioService {
     }
   }
 
-  async findOneStudio(id: number): Promise<ApiResponse<CreateStudioDto>>{
+  async findOneStudio(id: number): Promise<ApiResponseInterface<CreateStudioDto>>{
     try{
       const isStudio = await this.studioModel.findOne({where:{id}});
       if(!isStudio){
@@ -115,7 +115,7 @@ export class StudioService {
     }
   }
 
-  async UpdateStudio(id: number, studioDto: CreateStudioDto): Promise<ApiResponse<CreateStudioDto>>{
+  async UpdateStudio(id: number, studioDto: CreateStudioDto): Promise<ApiResponseInterface<CreateStudioDto>>{
     try{
       
       const affectedRows = await this.studioModel.update({

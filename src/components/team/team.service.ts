@@ -2,7 +2,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { Team } from 'src/models/equipes.model';
 import { InjectModel } from '@nestjs/sequelize';
-import { ApiResponse } from 'src/interfaces/APIResponse.interface';
+import { ApiResponseInterface } from 'src/interfaces/APIResponse.interface';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { Op, where } from 'sequelize';
 
@@ -13,7 +13,7 @@ export class TeamService {
       private equipeModel: typeof Team 
     ) {}
   
-    async create(equipeDto: CreateTeamDto) : Promise<ApiResponse<CreateTeamDto>> {
+    async create(equipeDto: CreateTeamDto) : Promise<ApiResponseInterface<CreateTeamDto>> {
 
       if(await this.VerifyName(equipeDto.name)){
         return {
@@ -30,7 +30,7 @@ export class TeamService {
       };
     }
   
-    async findOne(id: number): Promise<ApiResponse<Team>>{
+    async findOne(id: number): Promise<ApiResponseInterface<Team>>{
       const result : Team = await this.equipeModel.findOne({ where: {id}});
       
       if(!result){
@@ -46,7 +46,7 @@ export class TeamService {
       };
     }
   
-    async findAll(): Promise<ApiResponse<Team>> {
+    async findAll(): Promise<ApiResponseInterface<Team>> {
       const result = await this.equipeModel.findAll();
 
       if(result.length === 0){
@@ -65,7 +65,7 @@ export class TeamService {
       
     }
 
-    async Update(team :  UpdateTeamDto, id : number): Promise<ApiResponse>{
+    async Update(team :  UpdateTeamDto, id : number): Promise<ApiResponseInterface>{
       
       if(!(await this.exists(id))){
         return {
@@ -88,7 +88,7 @@ export class TeamService {
 
     }
 
-    async Delete(id : number) : Promise<ApiResponse>{
+    async Delete(id : number) : Promise<ApiResponseInterface>{
       if(!(await this.exists(id))){
         return {
           status: HttpStatus.NOT_FOUND,

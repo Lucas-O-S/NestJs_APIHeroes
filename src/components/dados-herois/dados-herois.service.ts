@@ -4,7 +4,7 @@ import { UpdateDadosHeroisDto } from './dto/update-dados-herois.dto';
 import { Heroes } from '../../models/heroes.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { TeamService } from '../team/team.service';
-import { ApiResponse } from 'src/interfaces/APIResponse.interface';
+import { ApiResponseInterface } from 'src/interfaces/APIResponse.interface';
 
 @Injectable()
 export class DadosHeroisService {
@@ -15,7 +15,7 @@ export class DadosHeroisService {
     private readonly studioService: TeamService 
   ) {}
   
-  async create(createDadosHeroisDto: CreateDadosHeroisDto) : Promise<ApiResponse> {
+  async create(createDadosHeroisDto: CreateDadosHeroisDto) : Promise<ApiResponseInterface> {
     
     //Verifica se o estudio e o time existem 
     if(!await this.VerifyForeignKey(createDadosHeroisDto)){
@@ -34,7 +34,7 @@ export class DadosHeroisService {
     };
   }
 
-  async findAll() : Promise<ApiResponse<Heroes>> {
+  async findAll() : Promise<ApiResponseInterface<Heroes>> {
     const result = await this.heroesModel.findAll({
       attributes: { exclude: ['studioId'] }, //Está puxando um campo inexistente chamado studioId não sei da onde sendo que deveria ter soemente studio_id
     });
@@ -45,7 +45,7 @@ export class DadosHeroisService {
     };
   }
 
-  async findOne(id: number) : Promise<ApiResponse<Heroes>> {
+  async findOne(id: number) : Promise<ApiResponseInterface<Heroes>> {
     const result = await this.heroesModel.findOne({where: {id}, attributes: { exclude: ['studioId'] }}); //Está puxando um campo inexistente chamado studioId não sei da onde sendo que deveria ter soemente studio_id
     
     if(!result){
@@ -85,7 +85,7 @@ export class DadosHeroisService {
 
   }
 
-  async remove(id: number) : Promise<ApiResponse> {
+  async remove(id: number) : Promise<ApiResponseInterface> {
     if(!await this.Exists(id)){
       return {
         message: "Registro não encontrado",

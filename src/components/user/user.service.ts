@@ -6,7 +6,7 @@ import { Role } from "src/models/roles.model";
 
 import { UpdateUserDTO } from "../user/dto/UserUpdate.dto";
 import { CreateUserDTO } from "../user/dto/UserCreate.dto";
-import { ApiResponse } from "src/interfaces/APIResponse.interface";
+import { ApiResponseInterface } from "src/interfaces/APIResponse.interface";
 
 import { AuthService } from "src/components/auth/auth.service";
 
@@ -23,7 +23,7 @@ export class UserService{
         private readonly roleModel : typeof Role
     ){}
 
-    async FindOne(id : number) : Promise<ApiResponse<User>>{
+    async FindOne(id : number) : Promise<ApiResponseInterface<User>>{
 
         const result = await this.userModel.findOne({where : {id:id}});
         if(!result){
@@ -40,7 +40,7 @@ export class UserService{
         };
     }
 
-    async Register(user : CreateUserDTO) : Promise<ApiResponse<CreateUserDTO>>{
+    async Register(user : CreateUserDTO) : Promise<ApiResponseInterface<CreateUserDTO>>{
         try {
             const senhaHash = await this.authService.generateHash(user.password);
             
@@ -73,7 +73,7 @@ export class UserService{
     }
 
     
-    async Update(id : number, user : UpdateUserDTO) : Promise<ApiResponse<UpdateUserDTO>>{
+    async Update(id : number, user : UpdateUserDTO) : Promise<ApiResponseInterface<UpdateUserDTO>>{
 
         try{
             if(await !this.Exist(id)){

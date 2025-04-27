@@ -1,13 +1,20 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ConflictException, ParseIntPipe } from '@nestjs/common';
 import { TeamService } from './team.service';
 import { CreateTeamDto } from './dto/create-team.dto';
-import { ApiResponse } from 'src/interfaces/APIResponse.interface';
+import { ApiResponseInterface } from 'src/interfaces/APIResponse.interface';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Team')
 @Controller('team')
 export class TeamController {
   constructor(private readonly teamService: TeamService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Cria uma nova equipe' })
+  @ApiBody({ type: CreateTeamDto })
+  @ApiResponse({ status: 201, description: 'Equipe criada com sucesso' })
+  @ApiResponse({ status: 409, description: 'Equipe com este nome já existe' })
+  @ApiResponse({ status: 500, description: 'Erro inesperado ao registrar equipe' })
   async registro(@Body("data") teamDTO: CreateTeamDto): Promise<any>{
     try{
       const result = await this.teamService.create(teamDTO);
@@ -21,7 +28,11 @@ export class TeamController {
   }  
 
   @Get('find-one-studio/:id')
-  async getEquipe(@Param("id", ParseIntPipe) id: number): Promise<ApiResponse>{
+  @ApiOperation({ summary: 'Busca uma equipe pelo ID' })
+  @ApiParam({ name: 'id', type: Number, description: 'ID da equipe' })
+  @ApiResponse({ status: 200, description: 'Equipe encontrada com sucesso' })
+  @ApiResponse({ status: 500, description: 'Erro inesperado ao buscar uma equipe' })
+  async getEquipe(@Param("id", ParseIntPipe) id: number): Promise<ApiResponseInterface>{
     try{
       const result = await this.teamService.findOne(id);
 
@@ -36,6 +47,9 @@ export class TeamController {
   }
   
   @Get('find-all-Team')
+  @ApiOperation({ summary: 'Busca todas as equipes' })
+  @ApiResponse({ status: 200, description: 'Lista de equipes retornada com sucesso' })
+  @ApiResponse({ status: 500, description: 'Erro inesperado ao buscar equipes' })
   async getAllEquipe(){
     try{
       const result = await this.teamService.findAll();
