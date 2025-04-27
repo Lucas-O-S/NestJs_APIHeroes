@@ -80,4 +80,14 @@ CREATE TABLE IF NOT EXISTS curiosities (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+CREATE TABLE if not exists articles(
+    id int AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) not null,
+    caption VARCHAR(100) not null,
+    author VARCHAR(50) not null,
+    font VARCHAR(50),
+    description_font varchar(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
 
