@@ -1,6 +1,6 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { ApiResponse } from 'src/interfaces/APIResponse.interface';
+import { ApiResponseInterface } from 'src/interfaces/APIResponse.interface';
 import { Curiosities } from "src/models/curiosities.model";
 import { CreateCuriositiesDto } from './dto/curiositiesCreate.dto';
 import { UpdateCuriositiesDto } from './dto/curiositiesUpdate.dto';
@@ -13,7 +13,7 @@ export class CuriositiesService{
         private curiositiesModel : typeof Curiosities
     ){}
 
-    async create(curiositiesDto : CreateCuriositiesDto) : Promise<ApiResponse<CreateCuriositiesDto>>{
+    async create(curiositiesDto : CreateCuriositiesDto) : Promise<ApiResponseInterface<CreateCuriositiesDto>>{
         try{
             await this.curiositiesModel.create(curiositiesDto);
             return {
@@ -30,7 +30,7 @@ export class CuriositiesService{
         }
     }
 
-    async update(id: number, curiositiesDto: UpdateCuriositiesDto) : Promise<ApiResponse<UpdateCuriositiesDto>>{
+    async update(id: number, curiositiesDto: UpdateCuriositiesDto) : Promise<ApiResponseInterface<UpdateCuriositiesDto>>{
         try{
             if(await this.exists(id) == false){
                 return {
@@ -57,7 +57,7 @@ export class CuriositiesService{
         }
     }
 
-    async findOne(id: number) : Promise<ApiResponse<CreateCuriositiesDto>>{
+    async findOne(id: number) : Promise<ApiResponseInterface<CreateCuriositiesDto>>{
         try{
             const Curiosities = await this.curiositiesModel.findOne({
                 where: {id}
@@ -84,7 +84,7 @@ export class CuriositiesService{
         }
     }
 
-    async findAll() : Promise<ApiResponse<CreateCuriositiesDto>>{
+    async findAll() : Promise<ApiResponseInterface<CreateCuriositiesDto>>{
         try{
             const Curiosities = await this.curiositiesModel.findAll();
 
@@ -115,7 +115,7 @@ export class CuriositiesService{
         return curiosities != null;
     }
 
-    async delete(id: number) : Promise<ApiResponse>{
+    async delete(id: number) : Promise<ApiResponseInterface>{
         try{
             if(await this.exists(id) == false){
                 return {
