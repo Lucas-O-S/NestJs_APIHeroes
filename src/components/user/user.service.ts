@@ -4,8 +4,8 @@ import { InjectModel } from "@nestjs/sequelize";
 import { User } from "src/models/user.model";
 import { Role } from "src/models/roles.model";
 
-import { UpdateUserDTO } from "../user/dto/UserUpdate.dto";
-import { CreateUserDTO } from "../user/dto/UserCreate.dto";
+import { UpdateUserDTO } from "./dto/userUpdate.dto";
+import { CreateUserDTO } from "./dto/userCreate.dto";
 import { ApiResponseInterface } from "src/interfaces/APIResponse.interface";
 
 import { AuthService } from "src/components/auth/auth.service";
