@@ -149,7 +149,7 @@ export class UserService{
             return {
                 acess_token: await this.authService.generateToken(user),
                 refresh_token: await this.authService.generateRefreshToken(user),
-                role
+                role, user_id: user.dataValues.id
             };        
         }catch(error){
             console.error("Erro ao realizar login:", error.message);
