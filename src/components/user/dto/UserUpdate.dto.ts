@@ -1,5 +1,4 @@
 import { Transform } from "class-transformer";
-import { CreateUserDTO } from "./UserCreate.dto";
 import { IsDate, IsEmail, IsNotEmpty, IsOptional, IsString, MinDate, MinLength } from "class-validator";
 import { IsCEP } from "src/validators/CepValidator";
 

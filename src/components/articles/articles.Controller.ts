@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { ArticlesService } from "./articles.Service";
 import { CreateArticleDto } from "./dto/articlesCreate.dto";
-import { ApiResponse } from "src/interfaces/APIResponse.interface";
+import { ApiResponseInterface } from "src/interfaces/APIResponse.interface";
 import { UpdateArticlesDto } from "./dto/articlesUpdate.dto";
 
 @Controller("articles")
@@ -10,7 +10,7 @@ export class ArticlesController {
     constructor(private readonly ArticlesService : ArticlesService){}
 
     @Post()
-    async create(@Body() articlesDto: CreateArticleDto): Promise<ApiResponse<CreateArticleDto>> {
+    async create(@Body() articlesDto: CreateArticleDto): Promise<ApiResponseInterface<CreateArticleDto>> {
         try{
             const result = await this.ArticlesService.create(articlesDto);
             return result;
@@ -24,7 +24,7 @@ export class ArticlesController {
     }
 
     @Put('update/:id')
-    async update(@Body() articleDto: UpdateArticlesDto, @Param("id") id: number): Promise<ApiResponse<UpdateArticlesDto>> {
+    async update(@Body() articleDto: UpdateArticlesDto, @Param("id") id: number): Promise<ApiResponseInterface<UpdateArticlesDto>> {
         try{
             const result = await this.ArticlesService.update(id, articleDto);
             return result;
@@ -38,7 +38,7 @@ export class ArticlesController {
     }
 
     @Get('find-one-article/:id')
-    async findOne(@Param("id") id: number): Promise<ApiResponse<CreateArticleDto>> {
+    async findOne(@Param("id") id: number): Promise<ApiResponseInterface<CreateArticleDto>> {
         try{
             const result = await this.ArticlesService.findOne(id);
             return result; 
@@ -52,7 +52,7 @@ export class ArticlesController {
     }
 
     @Get('find-all-articles')
-    async findAll(): Promise<ApiResponse<CreateArticleDto>> {
+    async findAll(): Promise<ApiResponseInterface<CreateArticleDto>> {
         try{
             const result = await this.ArticlesService.findAll();
             return result; 
@@ -66,7 +66,7 @@ export class ArticlesController {
     }
 
     @Delete('delete-one-article/:id')
-    async deleteOne(@Param("id") id: number): Promise<ApiResponse<CreateArticleDto>> {
+    async deleteOne(@Param("id") id: number): Promise<ApiResponseInterface<CreateArticleDto>> {
         try{
             const result = await this.ArticlesService.delete(id);
             return result; 

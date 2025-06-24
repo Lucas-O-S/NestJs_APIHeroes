@@ -4,8 +4,8 @@ import { InjectModel } from "@nestjs/sequelize";
 import { User } from "src/models/user.model";
 import { Role } from "src/models/roles.model";
 
-import { UpdateUserDTO } from "../user/dto/UserUpdate.dto";
-import { CreateUserDTO } from "../user/dto/UserCreate.dto";
+import { UpdateUserDTO } from "./dto/userUpdate.dto";
+import { CreateUserDTO } from "./dto/userCreate.dto";
 import { ApiResponseInterface } from "src/interfaces/APIResponse.interface";
 
 import { AuthService } from "src/components/auth/auth.service";
@@ -149,7 +149,7 @@ export class UserService{
             return {
                 acess_token: await this.authService.generateToken(user),
                 refresh_token: await this.authService.generateRefreshToken(user),
-                role
+                role, user_id: user.dataValues.id
             };        
         }catch(error){
             console.error("Erro ao realizar login:", error.message);

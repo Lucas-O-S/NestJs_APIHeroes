@@ -11,10 +11,10 @@ import {
     Put 
 } from "@nestjs/common";
 import { UserService } from "./user.service";
-import { CreateUserDTO } from "../user/dto/UserCreate.dto";
-import { UpdateUserDTO } from "../user/dto/UserUpdate.dto";
+import { CreateUserDTO } from "./dto/userCreate.dto";
+import { UpdateUserDTO } from "./dto/userUpdate.dto";
 import { ApiResponseInterface } from "../../interfaces/APIResponse.interface";
-import { CreateUserLoginDto } from "../user/dto/UserLoginCreate.dto";
+import { CreateUserLoginDto } from "./dto/userLoginCreate.dto";
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
   
  @ApiTags('Users') 

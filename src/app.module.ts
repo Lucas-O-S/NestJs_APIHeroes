@@ -6,5 +6,4 @@ import {Controllers, Imports, Providers} from './config';
   controllers: Controllers,
   providers: Providers,
 })
-export class AppModule  {
-}
+export class AppModule  {}
