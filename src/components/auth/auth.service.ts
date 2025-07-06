@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as CryptoJS from 'crypto-js';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
+import { access } from 'fs';
 
 @Injectable()
 export class AuthService {
@@ -13,17 +14,14 @@ export class AuthService {
 
     async generateHash(pass: string): Promise<any>{
         try{
-            const encryptionKey = this.config.get('ENCRYPTION_KEY')
             const saltRounds = this.config.get('SALT_ROUNDS')
 
-            if (!encryptionKey || !saltRounds) {
-                throw new Error("As variáveis de ambiente ENCRYPTION_KEY ou SALT_ROUNDS não estão configuradas.");
+            if (!saltRounds) {
+                throw new Error("A variável de ambiente SALT_ROUNDS não está configurada.");
             }
 
-            const decryptedPassword = CryptoJS.AES.decrypt(pass, encryptionKey).toString(CryptoJS.enc.Utf8);
-
             const salt = await bcrypt.genSalt(parseInt(saltRounds));
-            const hashedPassword = await bcrypt.hash(decryptedPassword, salt);
+            const hashedPassword = await bcrypt.hash(pass, salt);
 
             return hashedPassword;
         }catch(error){
@@ -34,14 +32,7 @@ export class AuthService {
 
     async validatyPassword(pass: string, hash: string): Promise<any>{
         try{
-            const encryptionKey = this.config.get('ENCRYPTION_KEY')
-            if (!encryptionKey) {
-                throw new Error("Chave de encriptação não configurada.");
-            }
-
-            const decryptedPassword = await CryptoJS.AES.decrypt(pass, encryptionKey).toString(CryptoJS.enc.Utf8);
-
-            return await bcrypt.compare(decryptedPassword, hash);
+            return await bcrypt.compare(pass, hash);
 
         }catch(error){
 
@@ -49,10 +40,19 @@ export class AuthService {
         
     }
 
-    async generateToken(userData: any): Promise<any>{
+    async generateToken(userData: any, role: any): Promise<any>{
         try{
-            const payload = { sub: userData.userId, username: userData.username };
-            const accessToken = await this.jwtService.signAsync(payload);
+            const payload = {
+                sub: userData.id,
+                username: userData.fullname,
+                role: role.role,
+                nickname: userData.nickname,
+                access: role.access,
+            };
+
+            const accessToken = await this.jwtService.signAsync(payload, {
+                expiresIn: '1h',
+            });
 
             return accessToken; 
         }catch(error){

@@ -98,6 +98,8 @@ export class UserController {
           message: 'Email ou senha não fornecidos!',
         };
       }
+
+      console.log("signInDto", signInDto);
       const result = await this.userService.signIn(signInDto.email, signInDto.password);
   
       return result;

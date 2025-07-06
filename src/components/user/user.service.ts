@@ -51,6 +51,14 @@ export class UserService{
                     ...user,
                     created_at: new Date()
                 });
+
+                const userCreated = await this.userModel.findOne({where : {firstemail: user.firstemail}});
+
+                await this.roleModel.create({
+                    role: "client",
+                    usuario_id: userCreated.id,
+                    access: "root"
+                });
     
                 return {
                     message: "Registro realizado com sucesso",
@@ -71,7 +79,6 @@ export class UserService{
         }
         
     }
-
     
     async Update(id : number, user : UpdateUserDTO) : Promise<ApiResponseInterface<UpdateUserDTO>>{
 
@@ -130,12 +137,14 @@ export class UserService{
             
 
             const user = await this.findOneUser(email);
+            console.log("dados usuario:",user);
+
             if (!user) {
                 throw new Error("Usuário não encontrado.");
             }
 
             const role = await this.roleModel.findOne({where:{usuario_id:user.dataValues.id}});
-
+            console.log("dados role:",role);
             const match = await this.authService.validatyPassword(pass, user.dataValues.password);
 
             if (!match) {
@@ -146,12 +155,12 @@ export class UserService{
 
             }
 
+            const accessToken = await this.authService.generateToken(user.dataValues, role.dataValues);
+
+            const refreshToken = await this.authService.generateRefreshToken(user.dataValues);
+
             return {
-                acess_token: await this.authService.generateToken(user),
-                refresh_token: await this.authService.generateRefreshToken(user),
-                role, 
-                user_id: user.dataValues.id,
-                nickname: user.dataValues.nickname,
+                access_token: accessToken
             };        
         }catch(error){
             console.error("Erro ao realizar login:", error.message);
