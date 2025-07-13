@@ -1,8 +1,8 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { ApiResponseInterface } from 'src/interfaces/APIResponse.interface';
-import { Article } from 'src/models/article.model';
-import { CreateArticleDto } from './dto/articlesCreate.dto';
+import { ApiResponseInterface } from 'src/domain/interfaces/APIResponse.interface';
+import { Article } from 'src/infrastructure/database/sequelize/models/article.model';
+import { CreateArticleDto } from '../../interface/dtos/articles/articlesCreate.dto';
 import { UpdateArticlesDto } from './dto/articlesUpdate.dto';
 
 @Injectable()

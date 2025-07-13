@@ -7,9 +7,12 @@ import { ValidationPipe } from '@nestjs/common';
 
 import * as express from 'express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.use(cookieParser());
 
   const config = new DocumentBuilder()
     .setTitle('Heroes Platform API')
@@ -46,3 +49,4 @@ async function bootstrap() {
   });
 }
 bootstrap();
+
