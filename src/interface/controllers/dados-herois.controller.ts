@@ -6,6 +6,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { DataHeroesService } from 'src/application/services/data-heroes.service';
 import { CreateDadosHeroisDto } from '../dtos/dados-herois/create-dados-herois.dto';
 import { LogInterceptor } from 'src/shared/interceptors/LogInterceptor';
+import { UpdateDadosHeroisDto } from '../dtos/dados-herois/update-dados-herois.dto';
 
 @ApiTags('Herois')
 @Controller('herois')
@@ -88,7 +89,7 @@ export class DadosHeroisController {
   @Get('find-one-hero/:id')
   async getHeroById(@Param("id", ParseIntPipe) id : number): Promise<ApiResponseInterface> {
     try{
-      const result = await this.dadosHeroisService.findOne(id);
+      const result = await this.dadosHeroisService.findHeroesById(id);
       return result;
     }
     catch(error){
@@ -118,7 +119,6 @@ export class DadosHeroisController {
             format: 'binary',
           },
         },
-        // Campos esperados no DTO:
         nome: { type: 'string' },
         poder: { type: 'string' },
         idade: { type: 'integer' },
@@ -144,7 +144,7 @@ export class DadosHeroisController {
         updateDadosHeroisDto.image1 = files[0]?.buffer || null;
         updateDadosHeroisDto.image2 = files[1]?.buffer || null;
     }
-      const result = await this.dadosHeroisService.update(id, updateDadosHeroisDto);
+      const result = await this.dadosHeroisService.updateHeroes(id, updateDadosHeroisDto);
       return result;
 
     }
@@ -168,7 +168,7 @@ export class DadosHeroisController {
       
     try{
     
-      const result = this.dadosHeroisService.remove(id);
+      const result = this.dadosHeroisService.DeleteHeroes(id);
     
 
       return result;
