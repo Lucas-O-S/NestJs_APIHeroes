@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common"
 import { ApiResponseInterface } from "src/domain/interfaces/APIResponse.interface";
 import { CreateArticleDto } from "../dtos/articles/articlesCreate.dto";
 import { UpdateArticlesDto } from "../dtos/articles/articlesUpdate.dto";
+import { ArticlesService } from "../../application/services/articles.service"
 
 @Controller("articles")
 export class ArticlesController {
@@ -11,7 +12,7 @@ export class ArticlesController {
     @Post()
     async create(@Body() articlesDto: CreateArticleDto): Promise<ApiResponseInterface<CreateArticleDto>> {
         try{
-            const result = await this.ArticlesService.create(articlesDto);
+            const result = await this.ArticlesService.createArticle(articlesDto);
             return result;
         }catch(error){
             return {
@@ -25,7 +26,7 @@ export class ArticlesController {
     @Put('update/:id')
     async update(@Body() articleDto: UpdateArticlesDto, @Param("id") id: number): Promise<ApiResponseInterface<UpdateArticlesDto>> {
         try{
-            const result = await this.ArticlesService.update(id, articleDto);
+            const result = await this.ArticlesService.updateArticle(id, articleDto);
             return result;
         }catch(error){
             return {

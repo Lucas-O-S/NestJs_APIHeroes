@@ -1,20 +1,21 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
-import { CuriositiesService } from "./curiosities.Service";
-import { CreateCuriositiesDto } from "./dto/curiositiesCreate.dto";
 import { ApiResponseInterface } from "src/domain/interfaces/APIResponse.interface";
-import { UpdateCuriositiesDto } from "./dto/curiositiesUpdate.dto";
-import { AuthGuard } from "../auth/auth.guard";
+import { AuthGuard } from "../guards/auth.guard";
+import { CuriosityService } from "src/application/services/curiosities.service";
+import { CreateCuriositiesDto } from "../dtos/curiosities/curiositiesCreate.dto";
+import { UpdateCuriositiesDto } from "../dtos/curiosities/curiositiesUpdate.dto";
+import { Curiosities } from "src/infrastructure/database/sequelize/models/curiosities.model";
 
 @Controller("curiosities")
 export class CuriositiesController {
 
-    constructor(private readonly curiositiesService : CuriositiesService){}
+    constructor(private readonly curiositiesService : CuriosityService){}
 
     @UseGuards(AuthGuard)
     @Post()
     async create(@Body() curiositiesDto: CreateCuriositiesDto): Promise<ApiResponseInterface<CreateCuriositiesDto>> {
         try{
-            const result = await this.curiositiesService.create(curiositiesDto);
+            const result = await this.curiositiesService.createCuriosity(curiositiesDto);
             return result;
         }catch(error){
             return {
@@ -27,9 +28,9 @@ export class CuriositiesController {
 
     @UseGuards(AuthGuard)
     @Put('update/:id')
-    async update(@Body() curiositiesDto: UpdateCuriositiesDto, @Param("id") id: number): Promise<ApiResponseInterface<UpdateCuriositiesDto>> {
+    async update(@Body() curiositiesDto: UpdateCuriositiesDto, @Param("id") id: number): Promise<ApiResponseInterface<Curiosities>> {
         try{
-            const result = await this.curiositiesService.update(id, curiositiesDto);
+            const result = await this.curiositiesService.updateCuriosity(id, curiositiesDto);
             return result;
         }catch(error){
             return {
@@ -43,7 +44,7 @@ export class CuriositiesController {
     @Get('find-one-curiosity/:id')
     async findOne(@Param("id") id: number): Promise<ApiResponseInterface<CreateCuriositiesDto>> {
         try{
-            const result = await this.curiositiesService.findOne(id);
+            const result = await this.curiositiesService.findCuriosityById(id);
             return result; 
         }catch(error){
             return {
@@ -57,7 +58,7 @@ export class CuriositiesController {
     @Get('find-all-curiosities')
     async findAll(): Promise<ApiResponseInterface<CreateCuriositiesDto>> {
         try{
-            const result = await this.curiositiesService.findAll();
+            const result = await this.curiositiesService.findAllCuriosity();
             return result; 
         }catch(error){
             return {
@@ -70,9 +71,9 @@ export class CuriositiesController {
 
     @UseGuards(AuthGuard)
     @Delete('delete-one-curiosity/:id')
-    async deleteOne(@Param("id") id: number): Promise<ApiResponseInterface<CreateCuriositiesDto>> {
+    async deleteOne(@Param("id") id: number): Promise<ApiResponseInterface<number>> {
         try{
-            const result = await this.curiositiesService.delete(id);
+            const result = await this.curiositiesService.deleteCuriosity(id);
             return result; 
         }catch(error){
             return {
