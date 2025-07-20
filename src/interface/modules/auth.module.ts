@@ -11,6 +11,8 @@ import { AuthService } from 'src/application/services/auth.service';
 import { AuthRepository } from 'src/infrastructure/repositories/auth.repository';
 import { AuthSignInUseCase } from 'src/application/use-cases/auth/auth-signin.use-case';
 import { FindAccessTokenUseCase } from 'src/application/use-cases/auth/find-acess-toke.use-case';
+import { TokenUseCase } from 'src/application/use-cases/auth/token.use-case';
+import { PasswordUseCase } from 'src/application/use-cases/auth/password.use-case';
 
 @Module({
   imports: [
@@ -28,7 +30,9 @@ import { FindAccessTokenUseCase } from 'src/application/use-cases/auth/find-aces
     AuthService,
     AuthSignInUseCase,
     FindAccessTokenUseCase,
-    AuthRepository
+    AuthRepository,
+    TokenUseCase,
+    PasswordUseCase
   ],
   exports: [AuthService]
 })

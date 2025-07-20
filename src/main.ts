@@ -44,7 +44,7 @@ async function bootstrap() {
     next();
   });
 
-  await app.listen(3000, '0.0.0.0', ()=>{
+  await app.listen(3020, '0.0.0.0', ()=>{
     console.log("API rodando na porta 3000!!!")
   });
 }

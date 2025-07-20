@@ -9,6 +9,8 @@ import { CreateUserRegisterUseCase } from "src/application/use-cases/user/create
 import { FindUserByIdUseCase } from "src/application/use-cases/user/find-user-by-id.use-case";
 import { UpdateUserByIdUseCase } from "src/application/use-cases/user/update-user-by-id.use-case";
 import { FindUserAllUseCase } from "src/application/use-cases/user/find-user-all.use-case";
+import { RoleService } from "src/application/services/role.service";
+import { RoleRepository } from "src/infrastructure/repositories/role.repository";
 
 @Module({
     imports: [
@@ -22,7 +24,9 @@ import { FindUserAllUseCase } from "src/application/use-cases/user/find-user-all
         FindUserByIdUseCase,
         UpdateUserByIdUseCase,
         FindUserAllUseCase,
-        UserRepository 
+        UserRepository,
+        RoleService,
+        RoleRepository
     ],
     exports: [UserService]
 })
