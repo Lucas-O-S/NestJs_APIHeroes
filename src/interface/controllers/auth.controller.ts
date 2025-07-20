@@ -28,7 +28,6 @@ export class AuthController {
         };
       }
 
-      console.log("signInDto", signInDto);
       const result = await this.authService.signIn(signInDto.email, signInDto.password, res);
 
       return result;

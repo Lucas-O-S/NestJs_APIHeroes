@@ -16,14 +16,12 @@ export class AuthSignInUseCase {
     async signIn(email: string, pass: string, res: Response): Promise<any> {
         try{
             const user = await this.authRepository.findByEmail(email);
-            console.log("dados usuario:",user);
 
             if (!user) {
                 throw new Error("Usuário não encontrado.");
             }
 
             const role = await this.authRepository.findRoleByUserId(user.dataValues.id);
-            console.log("dados role:",role);
             const match = await this.passawordUseCase.validatyPassword(pass, user.dataValues.password);
 
             if (!match) {
