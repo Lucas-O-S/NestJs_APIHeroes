@@ -4,6 +4,11 @@ import { models } from 'src/infrastructure/database/sequelize/models/index.model
 import { AuthModule } from "../../interface/modules/auth.module";
 import { UserController } from "../controllers/user.controller";
 import { UserService } from "src/application/services/user.service";
+import { UserRepository } from "src/infrastructure/repositories/user.repository";
+import { CreateUserRegisterUseCase } from "src/application/use-cases/user/create-user-register.use-case";
+import { FindUserByIdUseCase } from "src/application/use-cases/user/find-user-by-id.use-case";
+import { UpdateUserByIdUseCase } from "src/application/use-cases/user/update-user-by-id.use-case";
+import { FindUserAllUseCase } from "src/application/use-cases/user/find-user-all.use-case";
 
 @Module({
     imports: [
@@ -11,7 +16,14 @@ import { UserService } from "src/application/services/user.service";
         forwardRef(() => AuthModule)
     ],
     controllers: [UserController],
-    providers: [UserService, ],
+    providers: [
+        UserService,
+        CreateUserRegisterUseCase,
+        FindUserByIdUseCase,
+        UpdateUserByIdUseCase,
+        FindUserAllUseCase,
+        UserRepository 
+    ],
     exports: [UserService]
 })
 export class UserModule {}

@@ -8,6 +8,9 @@ import { UserModule } from './user.module';
 import { AuthController } from '../controllers/auth.controller';
 import { jwtConstants } from 'src/shared/utils/constants/constants';
 import { AuthService } from 'src/application/services/auth.service';
+import { AuthRepository } from 'src/infrastructure/repositories/auth.repository';
+import { AuthSignInUseCase } from 'src/application/use-cases/auth/auth-signin.use-case';
+import { FindAccessTokenUseCase } from 'src/application/use-cases/auth/find-acess-toke.use-case';
 
 @Module({
   imports: [
@@ -21,7 +24,12 @@ import { AuthService } from 'src/application/services/auth.service';
     forwardRef(() => UserModule)
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    AuthSignInUseCase,
+    FindAccessTokenUseCase,
+    AuthRepository
+  ],
   exports: [AuthService]
 })
 export class AuthModule {}
