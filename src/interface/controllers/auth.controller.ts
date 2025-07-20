@@ -1,9 +1,9 @@
 import { BadRequestException, Body, Controller, HttpCode, HttpStatus, Post, Req, Res, UnauthorizedException } from '@nestjs/common';
-import { AuthService } from './auth.service';
 import { Response } from 'express';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateUserLoginDto } from '../user/dto/userLoginCreate.dto';
 import { ApiResponseInterface } from 'src/domain/interfaces/APIResponse.interface';
+import { AuthService } from 'src/application/services/auth.service';
+import { CreateUserLoginDto } from '../dtos/user/userLoginCreate.dto';
 
 @ApiTags('Auth') 
 @Controller('auth')
@@ -43,7 +43,7 @@ export class AuthController {
   @Post('refresh')
   async refresh(@Req() req: Request, @Res() res: Response) {
     try {
-      await this.authService.getAccessToken(req, res);
+      return await this.authService.findAccessToken(req, res);
     } catch (error) {
       console.error('Erro ao processar o refresh token:', error);
       throw new UnauthorizedException('Não foi possível processar o refresh token.');

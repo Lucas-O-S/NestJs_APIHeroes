@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/sequelize";
 import { Article } from "../database/sequelize/models/article.model";
 import { CreateArticleDto } from "src/interface/dtos/articles/articlesCreate.dto";
 import { UpdateArticlesDto } from "src/interface/dtos/articles/articlesUpdate.dto";
+import { ApiResponseInterface } from "src/domain/interfaces/APIResponse.interface";
 
 @Injectable()
 export class ArticlesRepository {
@@ -26,5 +27,13 @@ export class ArticlesRepository {
     async updateArticle(id: number, articleDto: UpdateArticlesDto): Promise<void>{
         const article = new Article(articleDto);
         await this.articleModel.update(article, {where:{id}});
+    }
+
+    async findAllArticles(): Promise<Article[]>{
+        return await this.articleModel.findAll();
+    }
+
+    async DeleteArticle(id: number): Promise<number> {
+        return await this.articleModel.destroy({where: {id}});
     }
 }

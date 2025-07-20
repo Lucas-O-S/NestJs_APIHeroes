@@ -4,12 +4,12 @@ import { models} from '../../infrastructure/database/sequelize/models/index.mode
 import { StudioModule } from './studio.module';
 import { TeamModule } from './team.module';
 import { DadosHeroisController } from '../controllers/dados-herois.controller';
-import { DadosHeroisService } from 'src/components/dados-herois/dados-herois.service';
+import { DataHeroesService } from 'src/application/services/data-heroes.service';
 
 @Module({
   imports: [SequelizeModule.forFeature(models), TeamModule, StudioModule],
   controllers: [DadosHeroisController],
-  providers: [DadosHeroisService],
-  exports: [DadosHeroisService],
+  providers: [DataHeroesService],
+  exports: [DataHeroesService],
 })
 export class DadosHeroisModule {}

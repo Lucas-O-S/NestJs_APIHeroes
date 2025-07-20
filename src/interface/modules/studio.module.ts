@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { models } from 'src/infrastructure/database/sequelize/models/index.model';
 import { StudioController } from '../controllers/studio.controller';
-import { StudioService } from 'src/components/studio/studio.service';
+import { StudioService } from 'src/application/services/studio.service';
 
 @Module({
   imports: [SequelizeModule.forFeature(models)],

@@ -40,7 +40,7 @@ export class ArticlesController {
     @Get('find-one-article/:id')
     async findOne(@Param("id") id: number): Promise<ApiResponseInterface<CreateArticleDto>> {
         try{
-            const result = await this.ArticlesService.findOne(id);
+            const result = await this.ArticlesService.findArticleById(id);
             return result; 
         }catch(error){
             return {
@@ -54,7 +54,7 @@ export class ArticlesController {
     @Get('find-all-articles')
     async findAll(): Promise<ApiResponseInterface<CreateArticleDto>> {
         try{
-            const result = await this.ArticlesService.findAll();
+            const result = await this.ArticlesService.findAllArticles();
             return result; 
         }catch(error){
             return {
@@ -66,9 +66,9 @@ export class ArticlesController {
     }
 
     @Delete('delete-one-article/:id')
-    async deleteOne(@Param("id") id: number): Promise<ApiResponseInterface<CreateArticleDto>> {
+    async deleteOne(@Param("id") id: number): Promise<ApiResponseInterface<number>> {
         try{
-            const result = await this.ArticlesService.delete(id);
+            const result = await this.ArticlesService.deleteArticle(id);
             return result; 
         }catch(error){
             return {
