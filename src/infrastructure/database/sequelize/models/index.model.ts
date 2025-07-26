@@ -5,10 +5,11 @@ import { User } from './user.model';
 import { Role } from './roles.model';
 import { Curiosities } from './curiosities.model';
 import { Article } from './article.model';
+import { Quiz } from './quiz.model';
 
-export { Heroes, Studio, Team, User, Role }; 
+export { Heroes, Studio, Team, User, Role, Quiz }; 
 
-export const models = [Heroes, Studio, Team, User, Role,Curiosities, Article]; 
+export const models = [Heroes, Studio, Team, User, Role,Curiosities, Article, Quiz]; 
 
 export function defineAssociations() {
   Heroes.belongsTo(Studio, { foreignKey: 'studioId', as: 'studio' });
