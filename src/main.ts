@@ -7,9 +7,12 @@ import { ValidationPipe } from '@nestjs/common';
 
 import * as express from 'express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.use(cookieParser());
 
   const config = new DocumentBuilder()
     .setTitle('Heroes Platform API')
@@ -41,8 +44,9 @@ async function bootstrap() {
     next();
   });
 
-  await app.listen(3000, '0.0.0.0', ()=>{
-    console.log("API rodando na porta 3000!!!")
+  await app.listen(3020, '0.0.0.0', ()=>{
+    console.log("API rodando na porta 3020!!!")
   });
 }
 bootstrap();
+
